@@ -1,0 +1,1337 @@
+1
+ 
+ 
+ 
+ 
+                                                             
+                 Copyright 2020 Siemens Product Lifecycle    
+                        Management Software Inc.             
+                         All Rights Reserved.                
+                                                             
+               This software and related documentation are   
+                 proprietary to Siemens Product Lifecycle    
+                        Management Software Inc.             
+                                                             
+              Siemens and the Siemens logo are registered    
+           trademarks of Siemens AG. Simcenter is a trademark
+              or registered trademark of Siemens Product     
+               Lifecycle Management Software Inc. or its     
+             subsidiaries in the United States and in other  
+             countries.  NASTRAN is a registered trademark   
+                 of the National Aeronautics and Space       
+                 Administration.  All other trademarks,      
+              registered trademarks or service marks belong  
+                      to their respective holders.           
+                                                             
+           LIMITATIONS TO U.S. GOVERNMENT RIGHTS. UNPUBLISHED
+           - RIGHTS RESERVED UNDER THE COPYRIGHT LAWS OF THE 
+            UNITED STATES. This computer software and related
+               computer software documentation have been     
+            developed exclusively at private expense and are 
+           provided subject to the following rights:  If this
+               computer software and computer  software      
+            documentation qualify as "commercial items" (as  
+             that term is defined in FAR 2.101), their use,  
+            duplication or disclosure by the U.S. Government 
+           is subject to the protections and restrictions as 
+            set forth in the Siemens commercial license for  
+            software and/or documentation, as prescribed in  
+           FAR 12.212 and FAR 27.405(b)(2)(i) (for civilian  
+             agencies) and in DFARS 227.7202-1(a) and DFARS  
+           227.7202-3(a) (for the Department of Defense), or 
+           any successor or similar regulation, as applicable
+           or as amended from time to time.  If this computer
+           software and computer documentation do not qualify
+            as "commercial items", then they are "restricted 
+           computer software" and are provided with "restric-
+            tive rights", and their use, duplication or dis- 
+            closure by the U.S. Government is subject to the 
+            protections and restrictions as set forth in FAR 
+           27.404(b) and FAR 52-227-14 (for civilian agencies
+           ), and DFARS 227.7203-5(c) and DFARS 252.227-7014 
+           (for the Department of Defense), or any successor 
+           or similar regulation, as applicable or as amended
+              from time to time.  Siemens PLM Software Inc.  
+            5800 Granite Parkway, Suite 600, Plano, TX 75024 
+
+                * * * * * * * * * * * * * * * * * * * *
+                * * * * * * * * * * * * * * * * * * * *
+                * *                                 * *
+                * *                                 * *
+                * *                                 * *
+                * *                                 * *
+                * *     Simcenter Nastran 2020.2    * *
+                * *                                 * *
+                * *       VERSION - 1926.0091       * *
+                * *                                 * *
+                * *          MAY 12, 2020           * *
+                * *                                 * *
+                * *                                 * *
+                * *Intel64 Family 6 Model 158 Stepp * *
+                * *                                 * *
+                * *MODEL Intel(R) Core(TM) i7-9750H * *
+                * *                                 * *
+                * *           Windows 10            * *
+                * *                                 * *
+                * *       Compiled for X86-64       * *
+                * *                                 * *
+                * * * * * * * * * * * * * * * * * * * *
+                * * * * * * * * * * * * * * * * * * * *
+1 
+  
+                      Welcome to Simcenter Nastran
+                      ----------------------------
+  
+  
+ This "news" information can be turned off by setting "news=no" in the runtime
+ configuration (RC) file.  The "news" keyword can be set in the system RC file
+ for global, or multi-user control, and in a local file for local control.
+ Individual jobs can be controlled by setting news to yes or no on the command
+ line.
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE     1
+                                                                                                                                    
+0        N A S T R A N    F I L E    A N D    S Y S T E M    P A R A M E T E R    E C H O                                           
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+     NASTRAN BUFFSIZE=32769 $(C:/PROGRAM FILES/SIEMENS/SIMCENTER3D_2020.2/NXNASTRAN/C
+     NASTRAN BUFFPOOL=4335                                                           
+     NASTRAN DIAGA=128 DIAGB=0 $(C:/PROGRAM FILES/SIEMENS/SIMCENTER3D_2020.2/NXNASTRA
+     NASTRAN REAL=1577320448 $(MEMORY LIMIT FOR MPI AND OTHER SPECIALIZED MODULES)   
+     $*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$             
+     $*                                                                              
+     $*                    AEROELASTICITY APPROXIMATION OF HYDRODYNAMIC DAMPING      
+     $*                    FOR SIMCENTER NASTRAN VERSION 2020.2                      
+     $*                                                                              
+     $*        ANALYSIS TYPE: STRUCTURAL                                             
+     $*        SOLUTION NAME: FLUTTER                                                
+     $*        SOLUTION TYPE: SOL 145 AEROELASTIC FLUTTER                            
+     $*                                                                              
+     $*                UNITS: MM (MILLI-NEWTON)                                      
+     $*                      ... LENGTH : MM                                         
+     $*                      ... TIME   : SEC                                        
+     $*                      ... MASS   : KILOGRAM (KG)                              
+     $*                      ... TEMPERATURE : DEG CELSIUS                           
+     $*                      ... FORCE  : MILLI-NEWTON                               
+     $*                      ... THERMAL ENERGY : MN-MM (MICRO-JOULE)                
+     $*                                                                              
+     $*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$             
+     $*                                                                              
+     $*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$                                           
+     $*                                                                              
+     $* FILE MANAGEMENT                                                              
+     $*                                                                              
+     $*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$                                           
+     $*                                                                              
+     $*                                                                              
+     $*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$                                           
+     $*                                                                              
+     $* EXECUTIVE CONTROL                                                            
+     $*                                                                              
+     $*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$                                           
+     $*                                                                              
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE     2
+                                                                                                                                    
+0        N A S T R A N    E X E C U T I V E    C O N T R O L    E C H O                                                             
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+     ID, AEROELASTIC ANALYSIS, ADDED MASS                                                    
+     SOL 145                                                                                 
+     COMPILE FLUTTER NOLIST NOREF $                                                          
+     $MALTER '$ COUNTER FOR NUMBER OF M/K PAIRS' $                                           
+     ALTER 1 $                                                                               
+     MATGEN ,/PPP1/1/1 $                                                                     
+     ADD PPP1,/PP1/3.6731145098622107 $                                                      
+     MATGEN ,/PPP2/1/1 $                                                                     
+     ADD PPP2,/PP2/2.9463735910706728 $                                                      
+     MATGEN ,/ZERO1/7/1/1/0 $                                                                
+     TRNSP ZERO1/ZEROT1 $                                                                    
+     MATGEN ,/CP1/6/2/1/1 $                                                                  
+     MERGE PP1,ZEROT1,ZERO1,PP2,CP1,/A1 $                                                    
+     MATGEN ,/PPP3/1/1 $                                                                     
+     ADD PPP3,/PP3/2.1405102258718474 $                                                      
+     MATGEN ,/ZERO2/7/2/1/0 $                                                                
+     TRNSP ZERO2/ZEROT2 $                                                                    
+     MATGEN ,/CP2/6/3/2/1 $                                                                  
+     MERGE A1,ZEROT2,ZERO2,PP3,CP2,/A2 $                                                     
+     MATGEN ,/PPP4/1/1 $                                                                     
+     ADD PPP4,/PP4/2.2708309932431336 $                                                      
+     MATGEN ,/ZERO3/7/3/1/0 $                                                                
+     TRNSP ZERO3/ZEROT3 $                                                                    
+     MATGEN ,/CP3/6/4/3/1 $                                                                  
+     MERGE A2,ZEROT3,ZERO3,PP4,CP3,/A3 $                                                     
+     MATGEN ,/PPP5/1/1 $                                                                     
+     ADD PPP5,/PP5/1.9463240621869093 $                                                      
+     MATGEN ,/ZERO4/7/4/1/0 $                                                                
+     TRNSP ZERO4/ZEROT4 $                                                                    
+     MATGEN ,/CP4/6/5/4/1 $                                                                  
+     MERGE A3,ZEROT4,ZERO4,PP5,CP4,/A4 $                                                     
+     MATGEN ,/PPP6/1/1 $                                                                     
+     ADD PPP6,/PP6/1.8086032898100985 $                                                      
+     MATGEN ,/ZERO5/7/5/1/0 $                                                                
+     TRNSP ZERO5/ZEROT5 $                                                                    
+     MATGEN ,/CP5/6/6/5/1 $                                                                  
+     MERGE A4,ZEROT5,ZERO5,PP6,CP5,/A5 $                                                     
+     MATGEN ,/PPP7/1/1 $                                                                     
+     ADD PPP7,/PP7/2.1571671029542694 $                                                      
+     MATGEN ,/ZERO6/7/6/1/0 $                                                                
+     TRNSP ZERO6/ZEROT6 $                                                                    
+     MATGEN ,/CP6/6/7/6/1 $                                                                  
+     MERGE A5,ZEROT6,ZERO6,PP7,CP6,/A6 $                                                     
+     MATGEN ,/PPP8/1/1 $                                                                     
+     ADD PPP8,/PP8/1.9209938291332433 $                                                      
+     MATGEN ,/ZERO7/7/7/1/0 $                                                                
+     TRNSP ZERO7/ZEROT7 $                                                                    
+     MATGEN ,/CP7/6/8/7/1 $                                                                  
+     MERGE A6,ZEROT7,ZERO7,PP8,CP7,/A7 $                                                     
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE     3
+                                                                                                                                    
+0        N A S T R A N    E X E C U T I V E    C O N T R O L    E C H O                                                             
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+     MATGEN ,/PPP9/1/1 $                                                                     
+     ADD PPP9,/PP9/2.032405196506997 $                                                       
+     MATGEN ,/ZERO8/7/8/1/0 $                                                                
+     TRNSP ZERO8/ZEROT8 $                                                                    
+     MATGEN ,/CP8/6/9/8/1 $                                                                  
+     MERGE A7,ZEROT8,ZERO8,PP9,CP8,/A8 $                                                     
+     MATGEN ,/PPP10/1/1 $                                                                    
+     ADD PPP10,/PP10/2.1659158951651736 $                                                    
+     MATGEN ,/ZERO9/7/9/1/0 $                                                                
+     TRNSP ZERO9/ZEROT9 $                                                                    
+     MATGEN ,/CP9/6/10/9/1 $                                                                 
+     MERGE A8,ZEROT9,ZERO9,PP10,CP9,/A9 $                                                    
+     EQUIVX A9/BETAMAT/ALWAYS $                                                              
+     $MASS MATRIX SCALING                                                                    
+     MPYAD MHH,BETAMAT,/MHHX $                                                               
+     MPYAD MHHX,BETAMAT,/MHHNEW $                                                            
+     EQUIVX MHHNEW/MHH/ALWAYS $                                                              
+     $DAMPING MATRIX SCALING                                                                 
+     MPYAD BHH,BETAMAT,/BHHX $                                                               
+     EQUIVX BHHX/BHH/ALWAYS $                                                                
+     ENDALTER                                                                                
+     CEND                                                                                    
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE     4
+                                                                                                                                    
+0                                                                                                                                   
+0                                        C A S E    C O N T R O L    E C H O                                                        
+                 COMMAND                                                                                                            
+                 COUNT                                                                                                              
+                  1      $*                                                                                      
+                  2      $*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$                                                   
+                  3      $*                                                                                      
+                  4      $* CASE CONTROL                                                                         
+                  5      $*                                                                                      
+                  6      $*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$                                                   
+                  7      $*                                                                                      
+                  8      ECHO = NONE                                                                             
+                  9      SPC = 100                                                                               
+                 10      METHOD = 101                                                                            
+                 11      FMETHOD = 200                                                                           
+                 12      CMETHOD = 102                                                                           
+                 13      OUTPUT                                                                                  
+                 14      AEROF = ALL                                                                             
+                 15      APRESSURE = ALL                                                                         
+                 16      DISPLACEMENT(PLOT,REAL) = ALL                                                           
+                 17      EDE(PLOT,AVERAGE,RMAG) = ALL                                                            
+                 18      FORCE(PLOT,REAL,CENTER) = ALL                                                           
+                 19      SPCFORCES(PLOT,REAL) = ALL                                                              
+                 20      STRESS(PLOT,REAL,VONMISES,CENTER) = ALL                                                 
+                 21      $*  STEP: SUBCASE - EIGENVALUE METHOD 1                                                 
+                 22      SUBCASE 1                                                                               
+                 23        LABEL = SUBCASE - EIGENVALUE METHOD 1                                                 
+                 24        METHOD = 101                                                                          
+                 25        CMETHOD = 102                                                                         
+                 26      $*                                                                                      
+                 27      $*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$                                                   
+                 28      $*                                                                                      
+                 29      $* BULK DATA                                                                            
+                 30      $*                                                                                      
+                 31      $*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$                                                   
+                 32      $*                                                                                      
+                 33      BEGIN BULK                                                                              
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MAT1, 1, 68890000.0, , 0.33, 2.711E-06
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 1.00000000E-03
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 1.00000000E-03
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 1.00000000E-03
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 1.00000000E-03
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 1.00000000E-03
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 3.51034483E-02
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 3.51034483E-02
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 3.51034483E-02
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 3.51034483E-02
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 3.51034483E-02
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 6.92068966E-02
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 6.92068966E-02
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 6.92068966E-02
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 6.92068966E-02
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 6.92068966E-02
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 1.03310345E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 1.03310345E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 1.03310345E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 1.03310345E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 1.03310345E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 1.37413793E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 1.37413793E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 1.37413793E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 1.37413793E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 1.37413793E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 1.71517241E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 1.71517241E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 1.71517241E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 1.71517241E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 1.71517241E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 2.05620690E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 2.05620690E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 2.05620690E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 2.05620690E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 2.05620690E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 2.39724138E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 2.39724138E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 2.39724138E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 2.39724138E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 2.39724138E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 2.73827586E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 2.73827586E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 2.73827586E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 2.73827586E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 2.73827586E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 3.07931034E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 3.07931034E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 3.07931034E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 3.07931034E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 3.07931034E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 3.42034483E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 3.42034483E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 3.42034483E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 3.42034483E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 3.42034483E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 3.76137931E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 3.76137931E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 3.76137931E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 3.76137931E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 3.76137931E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 4.10241379E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 4.10241379E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 4.10241379E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 4.10241379E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 4.10241379E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 4.44344828E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 4.44344828E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 4.44344828E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 4.44344828E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 4.44344828E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 4.78448276E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 4.78448276E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 4.78448276E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 4.78448276E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 4.78448276E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 5.12551724E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 5.12551724E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 5.12551724E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 5.12551724E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 5.12551724E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 5.46655172E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 5.46655172E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 5.46655172E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 5.46655172E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 5.46655172E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 5.80758621E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 5.80758621E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 5.80758621E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 5.80758621E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 5.80758621E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 6.14862069E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 6.14862069E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 6.14862069E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 6.14862069E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 6.14862069E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 6.48965517E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 6.48965517E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 6.48965517E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 6.48965517E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 6.48965517E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 6.83068966E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 6.83068966E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 6.83068966E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 6.83068966E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 6.83068966E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 7.17172414E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 7.17172414E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 7.17172414E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 7.17172414E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 7.17172414E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 7.51275862E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 7.51275862E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 7.51275862E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 7.51275862E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 7.51275862E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 7.85379310E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 7.85379310E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 7.85379310E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 7.85379310E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 7.85379310E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 8.19482759E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 8.19482759E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 8.19482759E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 8.19482759E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 8.19482759E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 8.53586207E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 8.53586207E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 8.53586207E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 8.53586207E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 8.53586207E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 8.87689655E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 8.87689655E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 8.87689655E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 8.87689655E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 8.87689655E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 9.21793103E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 9.21793103E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 9.21793103E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 9.21793103E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 9.21793103E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 9.55896552E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 9.55896552E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 9.55896552E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 9.55896552E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 9.55896552E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 9.90000000E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 9.90000000E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 9.90000000E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 9.90000000E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     MKAERO1, 9.90000000E-01
+ *** USER WARNING MESSAGE 4699 (XSBFF)
+     THE FREE FIELD BULK DATA ENTRY BELOW HAS A REAL FIELD WITH MORE THAN 8 CHARACTERS.  SOME PRECISION MAY BE LOST.
+     FLFACT, 20, 1.03523167E-02
+0                             INPUT BULK DATA ENTRY COUNT =       27271
+0                       TOTAL COUNT=     27226
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE     5
+                                                                                                                                    
+0                                                                                                                                   
+0
+0
+0
+ 
+
+
+                                        M O D E L   S U M M A R Y
+
+                                   NUMBER OF GRID     POINTS   =    13374
+ 
+ 
+                                   NUMBER OF CPENTA   ELEMENTS =     3900
+ 
+ *** USER INFORMATION MESSAGE 4109 (OUTPBN2)
+     THE LABEL IS NX2020.2 FOR FORTRAN UNIT 12
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =        7 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =        8 RECORDS.)
+     (TOTAL DATA WRITTEN FOR TAPE LABEL =       17 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPBN2)
+     DATA BLOCK IBULK    WRITTEN ON FORTRAN UNIT  12, TRL =
+                    101                 1                 0                 0                 0                 0                 0
+     (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =    65538 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =       20 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =   136364 RECORDS.)
+     (TOTAL DATA WRITTEN FOR DATA BLOCK =   654503 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPBN2)
+     DATA BLOCK ICASE    WRITTEN ON FORTRAN UNIT  12, TRL =
+                    102                35                 0                 0                 0                 0                 0
+     (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =    65538 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =       20 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =      189 RECORDS.)
+     (TOTAL DATA WRITTEN FOR DATA BLOCK =      866 WORDS.)
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE     6
+                                                                                                                                    
+0                                                                                                                                   
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+ *** USER INFORMATION MESSAGE 4114 (OUTPBN2)
+     DATA BLOCK CASECC   WRITTEN ON FORTRAN UNIT  12, TRL =
+                    103                 1                 0              1200                 0                 0                 0
+     (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =    65538 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =     1200 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =       19 RECORDS.)
+     (TOTAL DATA WRITTEN FOR DATA BLOCK =     1226 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPBN2)
+     DATA BLOCK PVT0     WRITTEN ON FORTRAN UNIT  12, TRL =
+                    101                37                 0                 0                 0                 0                 0
+     (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =    65538 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =       37 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =       19 RECORDS.)
+     (TOTAL DATA WRITTEN FOR DATA BLOCK =       63 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPBN2)
+     DATA BLOCK GPL      WRITTEN ON FORTRAN UNIT  12, TRL =
+                    101             13919             13919                 0                 0                 0                 0
+     (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =    65538 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =    27838 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =       24 RECORDS.)
+     (TOTAL DATA WRITTEN FOR DATA BLOCK =    41788 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPBN2)
+     DATA BLOCK GPDT     WRITTEN ON FORTRAN UNIT  12, TRL =
+                    102             13919                 7                 0                 1                 0                 0
+     (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =    65538 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =    65538 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =       23 RECORDS.)
+     (TOTAL DATA WRITTEN FOR DATA BLOCK =   139216 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPBN2)
+     DATA BLOCK EPT      WRITTEN ON FORTRAN UNIT  12, TRL =
+                    101                 0               256                 0                 0                 0                 0
+     (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =    65538 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =       17 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =       24 RECORDS.)
+     (TOTAL DATA WRITTEN FOR DATA BLOCK =       50 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPBN2)
+     DATA BLOCK MPT      WRITTEN ON FORTRAN UNIT  12, TRL =
+                    101             32768                 0                 0                 0                 0                 0
+     (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =    65538 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =       27 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =       24 RECORDS.)
+     (TOTAL DATA WRITTEN FOR DATA BLOCK =       60 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPBN2)
+     DATA BLOCK GEOM2    WRITTEN ON FORTRAN UNIT  12, TRL =
+                    101                 0                 0               132                 0                 0                 0
+     (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =    65538 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =    65538 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =       31 RECORDS.)
+     (TOTAL DATA WRITTEN FOR DATA BLOCK =    68391 WORDS.)
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE     7
+                                                                                                                                    
+0                                                                                                                                   
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+ *** USER INFORMATION MESSAGE 4114 (OUTPBN2)
+     DATA BLOCK GEOM4    WRITTEN ON FORTRAN UNIT  12, TRL =
+                    103                 0                 0                 0                64                 0                 0
+     (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =    65538 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =     4943 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =       24 RECORDS.)
+     (TOTAL DATA WRITTEN FOR DATA BLOCK =     4976 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPBN2)
+     DATA BLOCK GEOM1    WRITTEN ON FORTRAN UNIT  12, TRL =
+                    104                 0              2048                 8                 0                 0                 0
+     (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =    65538 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =    65538 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =       33 RECORDS.)
+     (TOTAL DATA WRITTEN FOR DATA BLOCK =   153174 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPBN2)
+     DATA BLOCK BGPDT    WRITTEN ON FORTRAN UNIT  12, TRL =
+                    105             13919                 0             83514                 1                 0             13919
+     (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =    65538 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =    65538 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =       28 RECORDS.)
+     (TOTAL DATA WRITTEN FOR DATA BLOCK =   194896 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPBN2)
+     DATA BLOCK DYNAMICS WRITTEN ON FORTRAN UNIT  12, TRL =
+                    102             16640                 0                 0                 0                 0                 0
+     (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =    65538 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =       30 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =       29 RECORDS.)
+     (TOTAL DATA WRITTEN FOR DATA BLOCK =       80 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPBN2)
+     DATA BLOCK EDT      WRITTEN ON FORTRAN UNIT  12, TRL =
+                    102                 0                 7             42880                 0                 0                 0
+     (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =    65538 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =     6692 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =       64 RECORDS.)
+     (TOTAL DATA WRITTEN FOR DATA BLOCK =     9273 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPBN2)
+     DATA BLOCK EQEXIN   WRITTEN ON FORTRAN UNIT  12, TRL =
+                    101             13919                 0                 0                 0                 0                 0
+     (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =    65538 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =    27838 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =       24 RECORDS.)
+     (TOTAL DATA WRITTEN FOR DATA BLOCK =    55706 WORDS.)
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE     8
+                                                                                                                                    
+0                                                                                                                                   
+0
+0
+0
+ 
+ *** USER INFORMATION MESSAGE 7555 (EPENGS)
+     FINITE ELEMENT GEOMETRY CHECK RESULTS EXCEED TOLERANCE LEVELS FOR THE FOLLOWING ELEMENTS.
+     USER ACTION: USE THE GEOMCHECK (EXECUTIVE CONTROL STATEMENT) KEYWORD=VALUE TO CHANGE TOLERANCE VALUES IF DESIRED.
+     A MINIMUM OF        100 EDGE LENGTH ASPECT RATIO (AR)    TOLERANCE LIMIT VIOLATIONS WILL BE IDENTIFIED AND INDICATED BY xxxx.
+     A MINIMUM OF        100 EDGE NODE POINT LENGTH RATIO (ER)TOLERANCE LIMIT VIOLATIONS WILL BE IDENTIFIED AND INDICATED BY xxxx.
+     A MINIMUM OF        100 EDGE NODE POINT INCLUDED ANGLE   TOLERANCE LIMIT VIOLATIONS WILL BE IDENTIFIED AND INDICATED BY xxxx.
+     ALL NEG/ZERO DET(JACOBIAN) VALUE (DJ)TOLERANCE LIMIT VIOLATIONS WILL BE IDENTIFIED AND INDICATED BY FAIL.
+     A MINIMUM OF        100 WARPED FACE COEFFICIENT          TOLERANCE LIMIT VIOLATIONS WILL BE IDENTIFIED AND INDICATED BY xxxx.
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE     9
+                                                                                                                                    
+0                                                                                                                                   
+     TOLERANCE LIMITS ARE:  PEN_AR =   100.00, PEN_EPLR =   0.50, PEN_EPIA =  30.00, PEN_DETJ =   0.00, PEN_WARP =   0.71
+                            (xxxx = LIMIT VIOLATED)
+                         LONGEST    SHORTEST          ASPECT      EDGE POINT      EDGE POINT   MIN. JACOBIAN       FACE WARP
+ ELEMENT TYPE    ID         EDGE        EDGE           RATIO    LENGTH RATIO  INCLUDED ANGLE     DETERMINANT     COEFFICIENT
+    PENTA          21       7.50        2.61       2.87            0.95          112.37 xxxx      34.51            1.00     
+    PENTA         216       7.50        2.61       2.87            0.95          112.37 xxxx      34.51            1.00     
+    PENTA         411       7.50        2.61       2.87            0.95          112.37 xxxx      34.51            1.00     
+    PENTA         606       7.50        2.61       2.87            0.95          112.37 xxxx      34.51            1.00     
+    PENTA         801       7.50        2.61       2.87            0.95          112.37 xxxx      34.51            1.00     
+    PENTA         996       7.50        2.61       2.87            0.95          112.37 xxxx      34.51            1.00     
+    PENTA        1191       7.50        2.61       2.87            0.95          112.37 xxxx      34.51            1.00     
+    PENTA        1386       7.50        2.61       2.87            0.95          112.37 xxxx      34.51            1.00     
+    PENTA        1581       7.50        2.61       2.87            0.95          112.37 xxxx      34.51            1.00     
+    PENTA        1776       7.50        2.61       2.87            0.95          112.37 xxxx      34.51            1.00     
+    PENTA        1971       7.50        2.61       2.87            0.95          112.37 xxxx      34.51            1.00     
+    PENTA        2166       7.50        2.61       2.87            0.95          112.37 xxxx      34.51            1.00     
+    PENTA        2361       7.50        2.61       2.87            0.95          112.37 xxxx      34.51            1.00     
+    PENTA        2556       7.50        2.61       2.87            0.95          112.37 xxxx      34.51            1.00     
+    PENTA        2751       7.50        2.61       2.87            0.95          112.37 xxxx      34.51            1.00     
+    PENTA        2946       7.50        2.61       2.87            0.95          112.37 xxxx      34.51            1.00     
+    PENTA        3141       7.50        2.61       2.87            0.95          112.37 xxxx      34.51            1.00     
+    PENTA        3336       7.50        2.61       2.87            0.95          112.37 xxxx      34.51            1.00     
+    PENTA        3531       7.50        2.61       2.87            0.95          112.37 xxxx      34.51            1.00     
+    PENTA        3726       7.50        2.61       2.87            0.95          112.37 xxxx      34.51            1.00     
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE    10
+                                                                                                                                    
+0                                                                                                                                   
+
+
+                            E L E M E N T   G E O M E T R Y   T E S T   R E S U L T S   S U M M A R Y
+                                        TOTAL NUMBER OF TIMES TOLERANCES WERE EXCEEDED
+ ELEMENT     SKEW    ASPECT/       MINIMUM       MAXIMUM    SURFACE/FACE  THICKNESS/     EDGE POINT    EDGE POINT       JACOBIAN
+ TYPE        ANGLE  TAPER RATIO  INTER. ANGLE  INTER. ANGLE  WARP FACTOR  OFFSET RATIO  LENGTH RATIO  INCLUDED ANGLE  DETERMINANT
+ PENTA         N/A          0           N/A           N/A             0           N/A             0            20             0     
+
+         N/A IN THE ABOVE TABLE INDICATES TESTS THAT ARE NOT APPLICABLE TO THE ELEMENT TYPE AND WERE NOT PERFORMED.
+         FOR ALL ELEMENTS WHERE GEOMETRY TEST RESULTS HAVE EXCEEDED TOLERANCES,
+
+         PENTA    ELEMENT ID       21 PRODUCED LARGEST  EDGE POINT IA    OF     112.37 (TOLERANCE =       30.00).
+ *** USER INFORMATION MESSAGE - SINGULARITIES FOUND USING EIGENVALUE METHOD
+ ***       0 SINGULARITIES FOUND         0 SINGULARITIES ELIMINATED
+ *** SYSTEM INFORMATION MESSAGE 6916 (DFMSYN)
+     DECOMP ORDERING METHOD CHOSEN: DEFAULT, ORDERING METHOD USED: BEND
+ *** USER INFORMATION MESSAGE 5010 (LNCILS)
+     STURM SEQUENCE DATA FOR EIGENVALUE EXTRACTION.
+     TRIAL EIGENVALUE =  2.305060E+06, CYCLES =  2.416358E+02 NUMBER OF EIGENVALUES BELOW THIS VALUE =     0
+ *** USER INFORMATION MESSAGE 5010 (LNCILS)
+     STURM SEQUENCE DATA FOR EIGENVALUE EXTRACTION.
+     TRIAL EIGENVALUE =  1.098149E+09, CYCLES =  5.274129E+03 NUMBER OF EIGENVALUES BELOW THIS VALUE =    10
+
+ TABLE OF SHIFTS:  (LNNRIGL)
+ SHIFT #        SHIFT VALUE         FREQUENCY, CYCLES     # EIGENVALUES BELOW    # NEW EIGENVALUES FOUND
+     1.        2.3050605E+06          2.4163581E+02                 0                       12
+     2.        1.0981489E+09          5.2741290E+03                10                        0
+
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE    11
+                                                                                                                                    
+0                                                                                                            SUBCASE 1              
+0
+
+
+                          E I G E N V A L U E  A N A L Y S I S   S U M M A R Y   (READ MODULE) 
+
+
+
+                                     BLOCK SIZE USED ......................    7
+
+                                     NUMBER OF DECOMPOSITIONS .............    2
+
+                                     NUMBER OF ROOTS FOUND ................   10
+
+                                     NUMBER OF SOLVES REQUIRED ............    9
+
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE    12
+                                                                                                                                    
+0                                                                                                            SUBCASE 1              
+ 
+                                              R E A L   E I G E N V A L U E S
+   MODE    EXTRACTION      EIGENVALUE            RADIANS             CYCLES            GENERALIZED         GENERALIZED
+    NO.       ORDER                                                                       MASS              STIFFNESS
+        1         1        4.366897E+07        6.608250E+03        1.051736E+03        1.000000E+00        4.366897E+07
+        2         2        1.037617E+08        1.018635E+04        1.621208E+03        1.000000E+00        1.037617E+08
+        3         3        1.345653E+08        1.160023E+04        1.846234E+03        1.000000E+00        1.345653E+08
+        4         4        2.611380E+08        1.615977E+04        2.571907E+03        1.000000E+00        2.611380E+08
+        5         5        2.679637E+08        1.636960E+04        2.605302E+03        1.000000E+00        2.679637E+08
+        6         6        5.791293E+08        2.406511E+04        3.830080E+03        1.000000E+00        5.791293E+08
+        7         7        6.099805E+08        2.469778E+04        3.930774E+03        1.000000E+00        6.099805E+08
+        8         8        7.872354E+08        2.805772E+04        4.465524E+03        1.000000E+00        7.872354E+08
+        9         9        8.498010E+08        2.915135E+04        4.639581E+03        1.000000E+00        8.498010E+08
+       10        10        1.000774E+09        3.163501E+04        5.034868E+03        1.000000E+00        1.000774E+09
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE    13
+                                                                                                                                    
+0                                                                                                            SUBCASE 1              
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE    14
+                                                                                                                                    
+0                                                                                                            SUBCASE 1              
+ *** USER INFORMATION MESSAGE 7310 (VECPRN)
+     ORIGIN OF SUPERELEMENT BASIC COORDINATE SYSTEM WILL BE USED AS REFERENCE LOCATION.
+     RESULTANTS ABOUT ORIGIN OF SUPERELEMENT BASIC COORDINATE SYSTEM IN SUPERELEMENT BASIC SYSTEM COORDINATES.
+0                                                  SPCFORCE RESULTANT       
+  SUBCASE/    LOAD
+  DAREA ID    TYPE       T1            T2            T3            R1            R2            R3
+0        1     FX   -5.628133E+03     ----          ----          ----       1.359425E+07  4.221099E+05                             
+               FY       ----      -2.128392E-05     ----      -4.427980E-03     ----      -4.308850E-03                             
+               FZ       ----          ----      -1.512881E+07 -1.134661E+09  2.948863E+09     ----                                  
+               MX       ----          ----          ----       0.000000E+00     ----          ----                                  
+               MY       ----          ----          ----          ----       0.000000E+00     ----                                  
+               MZ       ----          ----          ----          ----          ----       0.000000E+00                             
+             TOTALS -5.628133E+03 -2.128392E-05 -1.512881E+07 -1.134661E+09  2.962458E+09  4.221099E+05                             
+0        2     FX   -2.885711E+03     ----          ----          ----      -5.672342E+06  2.164283E+05                             
+               FY       ----       9.013937E-06     ----       3.999541E-03     ----       1.174152E-03                             
+               FZ       ----          ----      -5.317393E+07 -3.988045E+09  4.159129E+09     ----                                  
+               MX       ----          ----          ----       0.000000E+00     ----          ----                                  
+               MY       ----          ----          ----          ----       0.000000E+00     ----                                  
+               MZ       ----          ----          ----          ----          ----       0.000000E+00                             
+             TOTALS -2.885711E+03  9.013937E-06 -5.317393E+07 -3.988045E+09  4.153456E+09  2.164283E+05                             
+0        3     FX    6.336651E+02     ----          ----          ----      -4.656530E+07 -4.752488E+04                             
+               FY       ----      -7.649069E-07     ----      -6.371382E-03     ----      -3.961660E-04                             
+               FZ       ----          ----      -1.029735E+07 -7.723010E+08 -2.025459E+09     ----                                  
+               MX       ----          ----          ----       0.000000E+00     ----          ----                                  
+               MY       ----          ----          ----          ----       0.000000E+00     ----                                  
+               MZ       ----          ----          ----          ----          ----       0.000000E+00                             
+             TOTALS  6.336651E+02 -7.649069E-07 -1.029735E+07 -7.723010E+08 -2.072025E+09 -4.752488E+04                             
+0        4     FX   -8.375850E-06     ----          ----          ----      -1.248379E-02  1.207906E+07                             
+               FY       ----       1.027806E+04     ----       9.056328E+08     ----      -1.007447E+07                             
+               FZ       ----          ----       3.328230E-03 -3.346046E+09 -4.503962E-01     ----                                  
+               MX       ----          ----          ----       0.000000E+00     ----          ----                                  
+               MY       ----          ----          ----          ----       0.000000E+00     ----                                  
+               MZ       ----          ----          ----          ----          ----       0.000000E+00                             
+             TOTALS -8.375850E-06  1.027806E+04  3.328230E-03 -2.440413E+09 -4.628800E-01  2.004587E+06                             
+0        5     FX   -2.549818E+05     ----          ----          ----      -5.110418E+07  1.912364E+07                             
+               FY       ----       3.807443E-05     ----      -2.178463E-01     ----       9.641969E-03                             
+               FZ       ----          ----       1.233602E+07  9.252015E+08 -1.460268E+09     ----                                  
+               MX       ----          ----          ----       0.000000E+00     ----          ----                                  
+               MY       ----          ----          ----          ----       0.000000E+00     ----                                  
+               MZ       ----          ----          ----          ----          ----       0.000000E+00                             
+             TOTALS -2.549818E+05  3.807443E-05  1.233602E+07  9.252015E+08 -1.511372E+09  1.912364E+07                             
+0        6     FX    1.656611E+05     ----          ----          ----      -3.981012E+07 -1.242458E+07                             
+               FY       ----       3.309756E-02     ----       5.250704E-02     ----       4.472848E+00                             
+               FZ       ----          ----       1.263454E+07  9.475904E+08 -9.529017E+08     ----                                  
+               MX       ----          ----          ----       0.000000E+00     ----          ----                                  
+               MY       ----          ----          ----          ----       0.000000E+00     ----                                  
+               MZ       ----          ----          ----          ----          ----       0.000000E+00                             
+             TOTALS  1.656611E+05  3.309756E-02  1.263454E+07  9.475904E+08 -9.927118E+08 -1.242458E+07                             
+0        7     FX    8.310444E-03     ----          ----          ----      -6.622400E-03 -8.956643E+06                             
+               FY       ----       5.811732E+04     ----      -2.823201E+09     ----       9.575236E+06                             
+               FZ       ----          ----      -2.197362E-03  1.106341E+10 -1.641093E+00     ----                                  
+               MX       ----          ----          ----       0.000000E+00     ----          ----                                  
+               MY       ----          ----          ----          ----       0.000000E+00     ----                                  
+               MZ       ----          ----          ----          ----          ----       0.000000E+00                             
+             TOTALS  8.310444E-03  5.811732E+04 -2.197362E-03  8.240214E+09 -1.647716E+00  6.185936E+05                             
+0        8     FX   -1.351835E-01     ----          ----          ----      -3.069902E-03 -7.631514E+06                             
+               FY       ----       1.900190E+04     ----       3.642025E+09     ----       4.515911E+06                             
+               FZ       ----          ----      -5.011077E-02 -1.387196E+10  1.277174E+01     ----                                  
+               MX       ----          ----          ----       0.000000E+00     ----          ----                                  
+               MY       ----          ----          ----          ----       0.000000E+00     ----                                  
+               MZ       ----          ----          ----          ----          ----       0.000000E+00                             
+             TOTALS -1.351835E-01  1.900190E+04 -5.011077E-02 -1.022993E+10  1.276867E+01 -3.115603E+06                             
+0        9     FX   -1.034343E+04     ----          ----          ----      -4.983377E+07  7.756301E+05                             
+               FY       ----      -1.451999E+00     ----      -1.070661E+00     ----      -2.647018E+02                             
+               FZ       ----          ----       8.796003E+07  6.597002E+09 -1.906729E+10     ----                                  
+               MX       ----          ----          ----       0.000000E+00     ----          ----                                  
+               MY       ----          ----          ----          ----       0.000000E+00     ----                                  
+               MZ       ----          ----          ----          ----          ----       0.000000E+00                             
+             TOTALS -1.034343E+04 -1.451999E+00  8.796003E+07  6.597002E+09 -1.911713E+10  7.753654E+05                             
+0       10     FX    2.597988E+00     ----          ----          ----       4.203870E-01 -7.288533E+07                             
+               FY       ----      -1.086447E+05     ----       1.126447E+09     ----       2.541332E+07                             
+               FZ       ----          ----       4.567003E-01 -4.626403E+09 -1.651607E+02     ----                                  
+               MX       ----          ----          ----       0.000000E+00     ----          ----                                  
+               MY       ----          ----          ----          ----       0.000000E+00     ----                                  
+               MZ       ----          ----          ----          ----          ----       0.000000E+00                             
+             TOTALS  2.597988E+00 -1.086447E+05  4.567003E-01 -3.499956E+09 -1.647403E+02 -4.747201E+07                             
+ *** USER INFORMATION MESSAGE 4114 (OUTPBN2)
+     DATA BLOCK OQG1     WRITTEN ON FORTRAN UNIT  12, TRL =
+                    101                16             21344                11                22                 0                 1
+     (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =    65538 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =    65538 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =      134 RECORDS.)
+     (TOTAL DATA WRITTEN FOR DATA BLOCK =  1071487 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPBN2)
+     DATA BLOCK LAMA     WRITTEN ON FORTRAN UNIT  12, TRL =
+                    101                10                 0                 0                 0                 0                 0
+     (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =    65538 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =      146 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =       24 RECORDS.)
+     (TOTAL DATA WRITTEN FOR DATA BLOCK =      246 WORDS.)
+ *** USER INFORMATION MESSAGE 4114 (OUTPBN2)
+     DATA BLOCK BOPHIG   WRITTEN ON FORTRAN UNIT  12, TRL =
+                    101                16             64944                11                22                 0                 1
+     (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =    65538 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =    65538 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =      134 RECORDS.)
+     (TOTAL DATA WRITTEN FOR DATA BLOCK =  1115087 WORDS.)
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE    15
+                                                                                                                                    
+0                                                                                                            SUBCASE 1              
+0                                                                                                                                   
+                                                                                                                                    
+                                                                                                                                    
+ *** USER INFORMATION MESSAGE 4114 (OUTPBN2)
+     DATA BLOCK OES1     WRITTEN ON FORTRAN UNIT  12, TRL =
+                    101                63                10                11                22                 0                 1
+     (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =    65538 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =    65538 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =      274 RECORDS.)
+     (TOTAL DATA WRITTEN FOR DATA BLOCK =  5890567 WORDS.)
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE    16
+                                                                                                                                    
+0                                                                                                            SUBCASE 1              
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE    17
+                                                                                                                                    
+0                                                                                                            SUBCASE 1              
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE    18
+                                                                                                                                    
+0                                                                                                            SUBCASE 1              
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE    19
+                                                                                                                                    
+0     SUBCASE - EIGENVALUE METHOD 1                                                                          SUBCASE 1              
+0                                                       FLUTTER  SUMMARY
+                         CONFIGURATION = AEROSG2D     XY-SYMMETRY = ASYMMETRIC     XZ-SYMMETRY = ASYMMETRIC
+       POINT =    1     MACH NUMBER =  0.0104     DENSITY RATIO =  1.0000E+00     METHOD = PK  
+
+
+       KFREQ            1./KFREQ         VELOCITY            DAMPING         FREQUENCY            COMPLEX   EIGENVALUE
+       48.2213       2.0737728E-02     2.3300000E+03    -1.1835263E-03     2.8611120E+02    -1.0638065E+00     1.7976897E+03
+       22.0356       4.5381046E-02     5.0200000E+03    -7.5429483E-03     2.8168864E+02    -6.6751394E+00     1.7699019E+03
+       14.4878       6.9023765E-02     7.4500000E+03    -1.9642083E-02     2.7485127E+02    -1.6960363E+01     1.7269414E+03
+       10.6169       9.4189266E-02     9.9300000E+03    -3.7416115E-02     2.6846517E+02    -3.1557058E+01     1.6868164E+03
+        8.3367       1.1995085E-01     1.2400000E+04    -5.9110080E-02     2.6324399E+02    -4.8884355E+01     1.6540108E+03
+        6.8282       1.4645138E-01     1.4900000E+04    -8.3753072E-02     2.5907942E+02    -6.8168468E+01     1.6278440E+03
+        5.7740       1.7319083E-01     1.7400000E+04    -1.1002322E-01     2.5583766E+02    -8.8429809E+01     1.6074754E+03
+        4.9459       2.0218648E-01     2.0100000E+04    -1.3943316E-01     2.5315357E+02    -1.1089194E+02     1.5906108E+03
+        4.7200       2.1186456E-01     2.1000000E+04    -1.4936820E-01     2.5240682E+02    -1.1844292E+02     1.5859188E+03
+        4.4068       2.2692401E-01     2.2400000E+04    -1.6489917E-01     2.5136666E+02    -1.3021950E+02     1.5793833E+03
+        4.0961       2.4413184E-01     2.4000000E+04    -1.8272493E-01     2.5033809E+02    -1.4370590E+02     1.5729206E+03
+        3.4962       2.8602385E-01     2.7900000E+04    -2.2627178E-01     2.4839455E+02    -1.7657220E+02     1.5607090E+03
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE    20
+                                                                                                                                    
+0     SUBCASE - EIGENVALUE METHOD 1                                                                          SUBCASE 1              
+0                                                       FLUTTER  SUMMARY
+                         CONFIGURATION = AEROSG2D     XY-SYMMETRY = ASYMMETRIC     XZ-SYMMETRY = ASYMMETRIC
+       POINT =    2     MACH NUMBER =  0.0104     DENSITY RATIO =  1.0000E+00     METHOD = PK  
+
+
+       KFREQ            1./KFREQ         VELOCITY            DAMPING         FREQUENCY            COMPLEX   EIGENVALUE
+       92.7148       1.0785769E-02     2.3300000E+03    -5.9843635E-04     5.5010415E+02    -1.0342196E+00     3.4564063E+03
+       42.9600       2.3277466E-02     5.0200000E+03    -7.3437979E-04     5.4917169E+02    -1.2670062E+00     3.4505475E+03
+       28.9712       3.4517057E-02     7.4500000E+03    -2.1376931E-03     5.4962013E+02    -3.6911174E+00     3.4533651E+03
+       21.6687       4.6149454E-02     9.9300000E+03    -3.8406679E-03     5.4792711E+02    -6.6111866E+00     3.4427276E+03
+       17.2103       5.8104771E-02     1.2400000E+04    -5.7884365E-03     5.4343800E+02    -9.8823709E+00     3.4145217E+03
+       14.1738       7.0552565E-02     1.4900000E+04    -7.9992775E-03     5.3779106E+02    -1.3514943E+01     3.3790409E+03
+       11.9974       8.3351286E-02     1.7400000E+04    -1.0417855E-02     5.3159031E+02    -1.7398237E+01     3.3400804E+03
+       10.2516       9.7546067E-02     2.0100000E+04    -1.3213646E-02     5.2471854E+02    -2.1782060E+01     3.2969038E+03
+        9.7695       1.0235901E-01     2.1000000E+04    -1.4185535E-02     5.2243626E+02    -2.3282463E+01     3.2825638E+03
+        9.0974       1.0992207E-01     2.2400000E+04    -1.5730881E-02     5.1892338E+02    -2.5645205E+01     3.2604917E+03
+        8.4265       1.1867327E-01     2.4000000E+04    -1.7545234E-02     5.1498958E+02    -2.8386214E+01     3.2357750E+03
+        7.1209       1.4043093E-01     2.7900000E+04    -2.2203053E-02     5.0591963E+02    -3.5289386E+01     3.1787868E+03
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE    21
+                                                                                                                                    
+0     SUBCASE - EIGENVALUE METHOD 1                                                                          SUBCASE 1              
+0                                                       FLUTTER  SUMMARY
+                         CONFIGURATION = AEROSG2D     XY-SYMMETRY = ASYMMETRIC     XZ-SYMMETRY = ASYMMETRIC
+       POINT =    3     MACH NUMBER =  0.0104     DENSITY RATIO =  1.0000E+00     METHOD = PK  
+
+
+       KFREQ            1./KFREQ         VELOCITY            DAMPING         FREQUENCY            COMPLEX   EIGENVALUE
+      145.4431       6.8755400E-03     2.3300000E+03     9.8718811E-04     8.6295713E+02     2.6763260E+00     5.4221196E+03
+       67.4715       1.4821080E-02     5.0200000E+03    -3.3463130E-03     8.6250970E+02    -9.0673508E+00     5.4193083E+03
+       45.3154       2.2067547E-02     7.4500000E+03    -2.7082637E-03     8.5969089E+02    -7.3144747E+00     5.4015971E+03
+       33.8119       2.9575427E-02     9.9300000E+03    -5.5069349E-03     8.5498468E+02    -1.4791702E+01     5.3720272E+03
+       26.9622       3.7088949E-02     1.2400000E+04    -8.8792258E-03     8.5136790E+02    -2.3748831E+01     5.3493023E+03
+       22.2202       4.5004041E-02     1.4900000E+04    -1.2650281E-02     8.4309181E+02    -3.3506180E+01     5.2973021E+03
+       18.7864       5.3229971E-02     1.7400000E+04    -1.6893481E-02     8.3240203E+02    -4.4177603E+01     5.2301362E+03
+       16.0211       6.2417846E-02     2.0100000E+04    -2.1909817E-02     8.2002557E+02    -5.6443771E+01     5.1523726E+03
+       15.2563       6.5546861E-02     2.1000000E+04    -2.3677699E-02     8.1584473E+02    -6.0687168E+01     5.1261036E+03
+       14.1893       7.0475755E-02     2.2400000E+04    -2.6497867E-02     8.0937240E+02    -6.7376613E+01     5.0854368E+03
+       13.1240       7.6196075E-02     2.4000000E+04    -2.9817289E-02     8.0208197E+02    -7.5134046E+01     5.0396296E+03
+       11.0516       9.0484323E-02     2.7900000E+04    -3.8230310E-02     7.8518316E+02    -9.4303687E+01     4.9334513E+03
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE    22
+                                                                                                                                    
+0     SUBCASE - EIGENVALUE METHOD 1                                                                          SUBCASE 1              
+0                                                       FLUTTER  SUMMARY
+                         CONFIGURATION = AEROSG2D     XY-SYMMETRY = ASYMMETRIC     XZ-SYMMETRY = ASYMMETRIC
+       POINT =    4     MACH NUMBER =  0.0104     DENSITY RATIO =  1.0000E+00     METHOD = PK  
+
+
+       KFREQ            1./KFREQ         VELOCITY            DAMPING         FREQUENCY            COMPLEX   EIGENVALUE
+      190.6559       5.2450516E-03     2.3300000E+03     5.3620829E-03     1.1312179E+03     1.9055909E+01     7.1076518E+03
+       88.6673       1.1278112E-02     5.0200000E+03    -6.1590000E-03     1.1334632E+03    -2.1931459E+01     7.1217596E+03
+       59.6897       1.6753312E-02     7.4500000E+03    -6.1407807E-03     1.1323892E+03    -2.1845861E+01     7.1150109E+03
+       44.5448       2.2449303E-02     9.9300000E+03    -6.4210945E-03     1.1263841E+03    -2.2721941E+01     7.0772798E+03
+       35.3224       2.8310682E-02     1.2400000E+04    -1.1450763E-02     1.1153507E+03    -4.0123220E+01     7.0079554E+03
+       28.9479       3.4544842E-02     1.4900000E+04    -1.8812197E-02     1.0983561E+03    -6.4913132E+01     6.9011751E+03
+       24.3547       4.1059800E-02     1.7400000E+04    -2.8225818E-02     1.0791269E+03    -9.5690527E+01     6.7803545E+03
+       20.6787       4.8359029E-02     2.0100000E+04    -4.0466486E-02     1.0584214E+03    -1.3455628E+02     6.6502576E+03
+       19.6684       5.0842857E-02     2.1000000E+04    -4.5009164E-02     1.0517910E+03    -1.4872374E+02     6.6085980E+03
+       18.2649       5.4749951E-02     2.2400000E+04    -5.2435311E-02     1.0418481E+03    -1.7162404E+02     6.5461246E+03
+       16.8712       5.9272496E-02     2.4000000E+04    -6.1462584E-02     1.0310937E+03    -1.9909430E+02     6.4785529E+03
+       14.1860       7.0491898E-02     2.7900000E+04    -8.5489203E-02     1.0078714E+03    -2.7068629E+02     6.3326426E+03
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE    23
+                                                                                                                                    
+0     SUBCASE - EIGENVALUE METHOD 1                                                                          SUBCASE 1              
+0                                                       FLUTTER  SUMMARY
+                         CONFIGURATION = AEROSG2D     XY-SYMMETRY = ASYMMETRIC     XZ-SYMMETRY = ASYMMETRIC
+       POINT =    5     MACH NUMBER =  0.0104     DENSITY RATIO =  1.0000E+00     METHOD = PK  
+
+
+       KFREQ            1./KFREQ         VELOCITY            DAMPING         FREQUENCY            COMPLEX   EIGENVALUE
+      225.7118       4.4304286E-03     2.3300000E+03     4.0332825E-03     1.3392150E+03     1.6969100E+01     8.4145357E+03
+      104.7533       9.5462369E-03     5.0200000E+03    -2.4591972E-03     1.3390957E+03    -1.0345580E+01     8.4137866E+03
+       70.5653       1.4171272E-02     7.4500000E+03    -5.6089661E-03     1.3387133E+03    -2.3589582E+01     8.4113835E+03
+       52.8271       1.8929695E-02     9.9300000E+03    -3.9675761E-03     1.3358132E+03    -1.6650255E+01     8.3931620E+03
+       41.9524       2.3836532E-02     1.2400000E+04    -5.4750222E-03     1.3247037E+03    -2.2785287E+01     8.3233586E+03
+       34.7968       2.8738310E-02     1.4900000E+04    -8.3399209E-03     1.3202773E+03    -3.4592102E+01     8.2955469E+03
+       29.8190       3.3535627E-02     1.7400000E+04    -1.1508832E-02     1.3212437E+03    -4.7770971E+01     8.3016190E+03
+       25.7657       3.8811260E-02     2.0100000E+04    -1.5237614E-02     1.3187985E+03    -6.3131378E+01     8.2862551E+03
+       24.6219       4.0614268E-02     2.1000000E+04    -1.6560076E-02     1.3166816E+03    -6.8500378E+01     8.2729546E+03
+       23.0087       4.3461813E-02     2.2400000E+04    -1.8708653E-02     1.3124425E+03    -7.7138768E+01     8.2463197E+03
+       21.3784       4.6776179E-02     2.4000000E+04    -2.1302331E-02     1.3065517E+03    -8.7438686E+01     8.2093067E+03
+       18.1521       5.5090085E-02     2.7900000E+04    -2.8235972E-02     1.2896471E+03    -1.1439933E+02     8.1030915E+03
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE    24
+                                                                                                                                    
+0     SUBCASE - EIGENVALUE METHOD 1                                                                          SUBCASE 1              
+0                                                       FLUTTER  SUMMARY
+                         CONFIGURATION = AEROSG2D     XY-SYMMETRY = ASYMMETRIC     XZ-SYMMETRY = ASYMMETRIC
+       POINT =    6     MACH NUMBER =  0.0104     DENSITY RATIO =  1.0000E+00     METHOD = PK  
+
+
+       KFREQ            1./KFREQ         VELOCITY            DAMPING         FREQUENCY            COMPLEX   EIGENVALUE
+      307.4598       3.2524575E-03     2.3300000E+03     2.9071055E-03     1.8242502E+03     1.6660770E+01     1.1462102E+04
+      142.7215       7.0066525E-03     5.0200000E+03     2.7882084E-04     1.8244554E+03     1.5981162E+00     1.1463391E+04
+       96.0685       1.0409234E-02     7.4500000E+03    -2.1847990E-03     1.8225423E+03    -1.2509472E+01     1.1451371E+04
+       72.0130       1.3886373E-02     9.9300000E+03    -3.3737893E-03     1.8209606E+03    -1.9300492E+01     1.1441433E+04
+       57.6928       1.7333173E-02     1.2400000E+04    -2.5949483E-03     1.8217289E+03    -1.4851227E+01     1.1446260E+04
+       47.8297       2.0907508E-02     1.4900000E+04    -2.6226992E-03     1.8147806E+03    -1.4952798E+01     1.1402602E+04
+       40.7587       2.4534663E-02     1.7400000E+04    -3.6046806E-03     1.8059647E+03    -2.0451536E+01     1.1347211E+04
+       35.2949       2.8332729E-02     2.0100000E+04    -4.9869470E-03     1.8065408E+03    -2.8302995E+01     1.1350831E+04
+       33.8231       2.9565598E-02     2.1000000E+04    -5.4650725E-03     1.8087258E+03    -3.1054071E+01     1.1364560E+04
+       31.7795       3.1466832E-02     2.2400000E+04    -6.2076344E-03     1.8127383E+03    -3.5351765E+01     1.1389770E+04
+       29.7354       3.3629992E-02     2.4000000E+04    -7.0663991E-03     1.8172915E+03    -4.0343413E+01     1.1418379E+04
+       25.6400       3.9001607E-02     2.7900000E+04    -9.1561603E-03     1.8216369E+03    -5.2399251E+01     1.1445682E+04
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE    25
+                                                                                                                                    
+0     SUBCASE - EIGENVALUE METHOD 1                                                                          SUBCASE 1              
+0                                                       FLUTTER  SUMMARY
+                         CONFIGURATION = AEROSG2D     XY-SYMMETRY = ASYMMETRIC     XZ-SYMMETRY = ASYMMETRIC
+       POINT =    7     MACH NUMBER =  0.0104     DENSITY RATIO =  1.0000E+00     METHOD = PK  
+
+
+       KFREQ            1./KFREQ         VELOCITY            DAMPING         FREQUENCY            COMPLEX   EIGENVALUE
+      356.3419       2.8062934E-03     2.3300000E+03     7.1751160E-03     2.1142822E+03     4.7658652E+01     1.3284427E+04
+      165.3277       6.0485936E-03     5.0200000E+03     2.0012582E-03     2.1134376E+03     1.3287474E+01     1.3279120E+04
+      111.4993       8.9686699E-03     7.4500000E+03    -2.7687213E-03     2.1152824E+03    -1.8399137E+01     1.3290711E+04
+       83.8076       1.1932099E-02     9.9300000E+03    -7.1759776E-03     2.1192028E+03    -4.7775306E+01     1.3315344E+04
+       67.0851       1.4906447E-02     1.2400000E+04    -7.6149114E-03     2.1183010E+03    -5.0676008E+01     1.3309678E+04
+       55.6143       1.7981003E-02     1.4900000E+04    -6.0929979E-03     2.1101459E+03    -4.0391816E+01     1.3258437E+04
+       47.3599       2.1114905E-02     1.7400000E+04    -6.4351192E-03     2.0984578E+03    -4.2423520E+01     1.3184999E+04
+       40.7950       2.4512827E-02     2.0100000E+04    -8.3423687E-03     2.0880590E+03    -5.4724528E+01     1.3119662E+04
+       39.0098       2.5634558E-02     2.1000000E+04    -9.1161579E-03     2.0860926E+03    -5.9744136E+01     1.3107306E+04
+       36.5503       2.7359575E-02     2.2400000E+04    -1.0380809E-02     2.0848691E+03    -6.7992319E+01     1.3099619E+04
+       34.1202       2.9308190E-02     2.4000000E+04    -1.1848610E-02     2.0852703E+03    -7.7621075E+01     1.3102140E+04
+       29.3859       3.4029952E-02     2.7900000E+04    -1.5535605E-02     2.0877716E+03    -1.0189691E+02     1.3117856E+04
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE    26
+                                                                                                                                    
+0     SUBCASE - EIGENVALUE METHOD 1                                                                          SUBCASE 1              
+0                                                       FLUTTER  SUMMARY
+                         CONFIGURATION = AEROSG2D     XY-SYMMETRY = ASYMMETRIC     XZ-SYMMETRY = ASYMMETRIC
+       POINT =    8     MACH NUMBER =  0.0104     DENSITY RATIO =  1.0000E+00     METHOD = PK  
+
+
+       KFREQ            1./KFREQ         VELOCITY            DAMPING         FREQUENCY            COMPLEX   EIGENVALUE
+      384.1113       2.6034121E-03     2.3300000E+03     1.5941562E-02     2.2790461E+03     1.1413895E+02     1.4319669E+04
+      178.2098       5.6113632E-03     5.0200000E+03     7.0520133E-03     2.2781140E+03     5.0470598E+01     1.4313812E+04
+      120.1936       8.3199133E-03     7.4500000E+03    -1.9647526E-03     2.2802244E+03    -1.4074577E+01     1.4327072E+04
+       90.3676       1.1065916E-02     9.9300000E+03    -1.1027859E-02     2.2850830E+03    -7.9166791E+01     1.4357600E+04
+       72.4454       1.3803502E-02     1.2400000E+04    -1.4628006E-02     2.2875602E+03    -1.0512537E+02     1.4373165E+04
+       60.1373       1.6628609E-02     1.4900000E+04    -1.1707474E-02     2.2817627E+03    -8.3923495E+01     1.4336738E+04
+       51.2395       1.9516191E-02     1.7400000E+04    -1.0079927E-02     2.2703578E+03    -7.1895480E+01     1.4265079E+04
+       44.0398       2.2706755E-02     2.0100000E+04    -1.2362183E-02     2.2541411E+03    -8.7543948E+01     1.4163186E+04
+       42.0341       2.3790191E-02     2.1000000E+04    -1.3675890E-02     2.2478197E+03    -9.6575494E+01     1.4123468E+04
+       39.2177       2.5498670E-02     2.2400000E+04    -1.6093016E-02     2.2370238E+03    -1.1309878E+02     1.4055635E+04
+       36.3778       2.7489275E-02     2.4000000E+04    -1.9259773E-02     2.2232489E+03    -1.3452070E+02     1.3969085E+04
+       30.7649       3.2504607E-02     2.7900000E+04    -2.8395241E-02     2.1857445E+03    -1.9498214E+02     1.3733438E+04
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE    27
+                                                                                                                                    
+0     SUBCASE - EIGENVALUE METHOD 1                                                                          SUBCASE 1              
+0                                                       FLUTTER  SUMMARY
+                         CONFIGURATION = AEROSG2D     XY-SYMMETRY = ASYMMETRIC     XZ-SYMMETRY = ASYMMETRIC
+       POINT =    9     MACH NUMBER =  0.0104     DENSITY RATIO =  1.0000E+00     METHOD = PK  
+
+
+       KFREQ            1./KFREQ         VELOCITY            DAMPING         FREQUENCY            COMPLEX   EIGENVALUE
+      391.5473       2.5539696E-03     2.3300000E+03     6.3955241E-03     2.3231664E+03     4.6677364E+01     1.4596885E+04
+      181.7001       5.5035753E-03     5.0200000E+03     2.8846624E-03     2.3227310E+03     2.1049597E+01     1.4594149E+04
+      122.4628       8.1657430E-03     7.4500000E+03    -4.5934406E-04     2.3232753E+03    -3.3526534E+00     1.4597569E+04
+       91.8802       1.0883739E-02     9.9300000E+03    -2.8195115E-03     2.3233319E+03    -2.0579509E+01     1.4597925E+04
+       73.5869       1.3589367E-02     1.2400000E+04    -3.6913810E-03     2.3236064E+03    -2.6946435E+01     1.4599650E+04
+       61.2721       1.6320644E-02     1.4900000E+04    -3.8343175E-03     2.3248187E+03    -2.8004450E+01     1.4607267E+04
+       52.4005       1.9083796E-02     1.7400000E+04    -3.0788081E-03     2.3217988E+03    -2.2457277E+01     1.4588292E+04
+       45.2807       2.2084481E-02     2.0100000E+04    -3.2350659E-03     2.3176560E+03    -2.3554939E+01     1.4562262E+04
+       43.3144       2.3087030E-02     2.1000000E+04    -3.4549936E-03     2.3162815E+03    -2.5141342E+01     1.4553626E+04
+       40.5656       2.4651433E-02     2.2400000E+04    -3.8398789E-03     2.3139074E+03    -2.7913441E+01     1.4538709E+04
+       37.8151       2.6444445E-02     2.4000000E+04    -4.2046780E-03     2.3110902E+03    -3.0528082E+01     1.4521008E+04
+       32.3094       3.0950705E-02     2.7900000E+04    -6.2944874E-03     2.2954814E+03    -4.5392491E+01     1.4422935E+04
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE    28
+                                                                                                                                    
+0     SUBCASE - EIGENVALUE METHOD 1                                                                          SUBCASE 1              
+0                                                       FLUTTER  SUMMARY
+                         CONFIGURATION = AEROSG2D     XY-SYMMETRY = ASYMMETRIC     XZ-SYMMETRY = ASYMMETRIC
+       POINT =   10     MACH NUMBER =  0.0104     DENSITY RATIO =  1.0000E+00     METHOD = PK  
+
+
+       KFREQ            1./KFREQ         VELOCITY            DAMPING         FREQUENCY            COMPLEX   EIGENVALUE
+      391.7438       2.5526890E-03     2.3300000E+03     2.9687510E-03     2.3243318E+03     2.1678128E+01     1.4604208E+04
+      181.8133       5.5001477E-03     5.0200000E+03     1.2108678E-03     2.3241785E+03     8.8412995E+00     1.4603244E+04
+      122.5057       8.1628836E-03     7.4500000E+03    -3.5893735E-04     2.3240891E+03    -2.6207242E+00     1.4602683E+04
+       91.9680       1.0873352E-02     9.9300000E+03    -3.0345139E-03     2.3255512E+03    -2.2169960E+01     1.4611869E+04
+       73.6760       1.3572938E-02     1.2400000E+04    -4.6239463E-03     2.3264190E+03    -3.3794855E+01     1.4617322E+04
+       61.2304       1.6331751E-02     1.4900000E+04    -2.9329627E-03     2.3232377E+03    -2.1406716E+01     1.4597333E+04
+       52.3469       1.9103339E-02     1.7400000E+04    -2.5299417E-03     2.3194236E+03    -1.8434886E+01     1.4573368E+04
+       45.1497       2.2148520E-02     2.0100000E+04    -3.1367642E-03     2.3109548E+03    -2.2773155E+01     1.4520157E+04
+       43.1630       2.3167964E-02     2.1000000E+04    -3.4421171E-03     2.3081899E+03    -2.4960142E+01     1.4502785E+04
+       40.4106       2.4746001E-02     2.2400000E+04    -3.9985161E-03     2.3050646E+03    -2.8955550E+01     1.4483148E+04
+       37.6919       2.6530898E-02     2.4000000E+04    -4.7934148E-03     2.3035593E+03    -3.4689200E+01     1.4473690E+04
+       32.5742       3.0699122E-02     2.7900000E+04    -5.4484847E-03     2.3142931E+03    -3.9613569E+01     1.4541133E+04
+ *** USER INFORMATION MESSAGE 4114 (OUTPBN2)
+     DATA BLOCK OVG      WRITTEN ON FORTRAN UNIT  12, TRL =
+                    101                 1                 0                 0                 0                 0                 0
+     (MAXIMUM POSSIBLE FORTRAN RECORD SIZE =    65538 WORDS.)
+     (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =      146 WORDS.)
+     (NUMBER OF FORTRAN RECORDS WRITTEN =      114 RECORDS.)
+     (TOTAL DATA WRITTEN FOR DATA BLOCK =     2042 WORDS.)
+ *** USER INFORMATION MESSAGE 4110 (OUTPBN2)
+                                 END-OF-DATA SIMULATION ON FORTRAN UNIT 12
+                                 (MAXIMUM SIZE OF FORTRAN RECORDS WRITTEN =      1 WORDS.)
+                                       (NUMBER OF FORTRAN RECORDS WRITTEN =      1 RECORDS.)
+                                       (TOTAL DATA WRITTEN FOR EOF MARKER =      1 WORDS.)
+1                                                                           OCTOBER  11, 2022  SIMCENTER NASTRAN  5/12/20   PAGE    29
+                                                                                                                                    
+0     SUBCASE - EIGENVALUE METHOD 1                                                                          SUBCASE 1              
+ * * * *  D B D I C T   P R I N T  * * * *      SUBDMAP = PRTSUM  ,  DMAP STATEMENT NO.     28
+
+
+
+0                                   * * * *  A N A L Y S I S  S U M M A R Y  T A B L E  * * * *
+0 SEID  PEID PROJ VERS APRCH      SEMG SEMR SEKR SELG SELR MODES DYNRED SOLLIN PVALID SOLNL LOOPID DESIGN CYCLE SENSITIVITY
+ --------------------------------------------------------------------------------------------------------------------------
+     0     0    1    1 '        '    T    T    T    F    F     T      F      T      0     F     -1            0           F
+0SEID = SUPERELEMENT ID.
+ PEID = PRIMARY SUPERELEMENT ID OF IMAGE SUPERELEMENT.
+ PROJ = PROJECT ID NUMBER.
+ VERS = VERSION ID.
+ APRCH = BLANK FOR STRUCTURAL ANALYSIS.  HEAT FOR HEAT TRANSFER ANALYSIS.
+ SEMG = STIFFNESS AND MASS MATRIX GENERATION STEP.
+ SEMR = MASS MATRIX REDUCTION STEP (INCLUDES EIGENVALUE SOLUTION FOR MODES).
+ SEKR = STIFFNESS MATRIX REDUCTION STEP.
+ SELG = LOAD MATRIX GENERATION STEP.
+ SELR = LOAD MATRIX REDUCTION STEP. 
+ MODES = T (TRUE) IF NORMAL MODES OR BUCKLING MODES CALCULATED.
+ DYNRED = T (TRUE) MEANS GENERALIZED DYNAMIC AND/OR COMPONENT MODE REDUCTION PERFORMED.
+ SOLLIN = T (TRUE) IF LINEAR SOLUTION EXISTS IN DATABASE.
+ PVALID = P-DISTRIBUTION ID OF P-VALUE FOR P-ELEMENTS
+ LOOPID = THE LAST LOOPID VALUE USED IN THE NONLINEAR ANALYSIS.  USEFUL FOR RESTARTS.
+ SOLNL = T (TRUE) IF NONLINEAR SOLUTION EXISTS IN DATABASE.
+ DESIGN CYCLE = THE LAST DESIGN CYCLE (ONLY VALID IN OPTIMIZATION).
+ SENSITIVITY = SENSITIVITY MATRIX GENERATION FLAG.
+1                                        * * * END OF JOB * * *
+ 
+ 

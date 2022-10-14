@@ -46,7 +46,7 @@ def naming(filename, analysis_type = None, create_folder = False):
         for letter in folder_name:
             path.append(letter)
         filename = "".join(path)
-
+    filename = os.path.realpath(filename)
     #Naming the input file with bdf extension
     file_in = list(filename)
     file_in.append(".bdf")
@@ -195,7 +195,7 @@ class model:
                 self.ref_velocity = flow_object.ref_velocity
                 self.ref_length = flow_object.ref_length
                 self.rho_flow = flow_object.rho_flow
-                self.kfreq = flow_object.kfreq
+                self.velocities = flow_object.velocities
                 self.density_ratios = flow_object.density_ratios
                 self.machs = flow_object.machs
                 self.mach_matrix = flow_object.mach_matrix
@@ -317,7 +317,7 @@ class model:
                        SID=200,
                        mach_matrix=self.mach_matrix,
                        freq_matrix=self.freq_matrix,
-                       kfreq=self.kfreq,
+                       velocities=self.velocities,
                        densities=self.density_ratios,
                        machs=self.machs,
                        velocity = self.velocity)
@@ -327,12 +327,13 @@ class model:
             SPC(f, nodelist=nodelist.nodelist, profile_nodes_len = len(nodelist.mesh_profile))
             if analysis_type == "uncoupled_acoustics" or analysis_type == "coupled_acoustics":
                 ACMODL(f)
+                #SPCF(f, nodelist_object=nodelist)
             if analysis_type == "static": GRAV(f)
 
             # Footer and closing
             footers(f)
 
-    def run(self):
+    def run(self, nmodes = 10):
         if self.analysis_type == "hydroelastic":
             import time
             time1 = time.time()
@@ -425,7 +426,7 @@ class model:
                     j += 1
                 elif LAMBDAcoup[i] < (10*2*np.pi)**2:
                     k += 1
-            n = min(len(LAMBDAvac[j:]), len(LAMBDAcoup[k:]),10)
+            n = min(len(LAMBDAvac[j:]), len(LAMBDAcoup[k:]),nmodes)
             LAMBDAvac = LAMBDAvac[j:n+j]
             LAMBDAcoup = LAMBDAcoup[k:n+k]
             phi_s = phi_s[:,j:n+j]
@@ -745,10 +746,14 @@ class model:
                                 warnings.simplefilter("ignore")
                                 #zeta[i, j, k, m] = zetawn / wn[i, j, k, m]
                                 vstar[i,j,k,m] = velocities[m]/(self.ref_length*wn[i,j,k,m]/(2*np.pi))
-            data = np.array(
-                [velocities, vstar[0, 0, 0, :], wn[0, 0, 0, :] / (2 * np.pi), zeta[0, 0, 0, :], Re[0, 0, 0, :],
-                 Im[0, 0, 0, :]]).T
-            np.savetxt(self.file_num, data, delimiter = ",")
+            for i in range(5):
+                data = np.array(
+                [velocities, vstar[i, 0, 0, :], wn[i, 0, 0, :] / (2 * np.pi), zeta[i, 0, 0, :], Re[i, 0, 0, :],
+                 Im[i, 0, 0, :]]).T
+                file_num = list(self.filename)
+                file_num.append(str(i)+".csv")
+                file_num = "".join(file_num)
+                np.savetxt(file_num, data, delimiter = ",")
 
             if show == True:
                 #Velocity
@@ -839,7 +844,7 @@ class model:
                 plt.ylabel(r'Flow added damping $\zeta_f$')
                 plt.title("Adimensional added damping according to reduced velocity")
                 plt.grid(True)
-                for i in range(min(len(modes), 1)):
+                for i in range(min(len(modes), 5)):
                     if True:
                         if True:
                             for j in range(len(machs)):
@@ -856,14 +861,14 @@ class model:
                                         # ', density = ' + str(densities[k]*self.rho_flow)+r'$kg/mm^3$')
                 plt.legend(loc='best')
                 plt.tight_layout()
-                # plt.savefig('Added Damping.pdf')
+                plt.savefig('Added Damping.pdf')
 
                 # subplot 2
                 plt.subplot(1, 2, 1)
                 plt.ylabel(r'$f_n$')
                 plt.title("Frequency according to reduced velocity")
                 plt.grid(True)
-                for i in range(min(len(modes), 1)):
+                for i in range(min(len(modes), 5)):
                     if True:
                         for j in range(len(machs)):
                             for k in range(len(densities)):
@@ -881,7 +886,7 @@ class model:
 
                 plt.legend(loc='best')
                 plt.tight_layout()
-                #plt.savefig('Frequency and Damping - Reduced Velocity - Constant.png')
+                plt.savefig('Frequency and Damping - Reduced Velocity - Constant.png')
 
                 plt.figure('Eigenvalues - Reduced Velocity - Constant', figsize = (12,6))
                 plt.suptitle("Eigenvalues according to reduced velocity")
@@ -930,7 +935,7 @@ class model:
 
                 plt.legend(loc='best')
                 plt.tight_layout()
-                #plt.savefig('Eigenvalues - Reduced Velocity - Constant.png')
+                plt.savefig('Eigenvalues - Reduced Velocity - Constant.png')
 
                 # Variable frequencies
                 # Reduced velocity
@@ -954,7 +959,7 @@ class model:
                                     # ', density = ' + str(densities[k]*self.rho_flow)+r'$kg/mm^3$')
                 plt.legend(loc='best')
                 plt.tight_layout()
-                # plt.savefig('Added Damping.pdf')
+                plt.savefig('Added Damping.pdf')
 
                 # subplot 2
                 plt.subplot(1, 2, 1)
@@ -973,7 +978,7 @@ class model:
 
                 plt.legend(loc='best')
                 plt.tight_layout()
-                #plt.savefig('Frequency and Damping - Reduced Velocity - Variable.png')
+                plt.savefig('Frequency and Damping - Reduced Velocity - Variable.png')
 
                 plt.figure('Eigenvalues - Reduced Velocity - Variable', figsize = (12,6))
                 plt.suptitle("Eigenvalues according to reduced velocity")
@@ -1012,7 +1017,7 @@ class model:
 
                 plt.legend(loc='best')
                 plt.tight_layout()
-                #plt.savefig('Eigenvalues - Reduced Velocity - Variable.png')
+                plt.savefig('Eigenvalues - Reduced Velocity - Variable.png')
 
                 plt.figure("Argand", figsize = (8,6))
                 plt.xlabel(r'$Re(\omega)$')
@@ -1033,7 +1038,7 @@ class model:
                                                    #', density = ' + str(densities[k]*self.rho_flow)+r'$kg/mm^3$')
                 plt.legend(loc='best')
                 plt.tight_layout()
-                #plt.savefig('Argand.png')
+                plt.savefig('Argand.png')
 
                 plt.show(block = True)
 
@@ -1115,11 +1120,11 @@ class fluid:
 
 class flow:
     #Defining the flow for flutter analysis
-    def __init__(self, ref_velocity, ref_length, rho_flow, kfreq, density_ratios, machs, mach_matrix, freq_matrix, results_file, velocity = None):
+    def __init__(self, ref_velocity, ref_length, rho_flow, velocities, density_ratios, machs, mach_matrix, freq_matrix, results_file, velocity = None):
         self.ref_velocity = ref_velocity
         self.ref_length = ref_length
         self.rho_flow = rho_flow
-        self.kfreq = kfreq
+        self.velocities = velocities
         self.density_ratios = density_ratios
         self.machs = machs
         self.mach_matrix = mach_matrix

@@ -120,7 +120,7 @@ $*
 $* SOLUTION CARDS
 $*
 $*  Modeling Object: Real Eigenvalue - Lanczos1
-EIGRL, 101, 10.0000, 10.0E3, """+str(nmodes)+""", 0, 7, , MASS
+EIGRL, 101, 10.0000, , """+str(nmodes)+""", 0, 7, , MASS
 $* Modeling Object: Complex Eigenvalue - Lanczos
 EIGC,102, CLAN, , , , , """+str(nmodes)+"""
 $*

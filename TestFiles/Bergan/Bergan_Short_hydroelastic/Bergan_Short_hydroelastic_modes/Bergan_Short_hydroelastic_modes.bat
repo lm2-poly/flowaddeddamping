@@ -1,0 +1,1 @@
+"C:\Program Files\Siemens\Simcenter3D_2020.2\NXNASTRAN\bin\nastranw.exe" "C:\Users\danic\Documents\3 - STG-CRSNG_E2022\flowaddeddamping\TestFiles\Bergan\Bergan_Short_hydroelastic\Bergan_Short_hydroelastic_modes\Bergan_Short_hydroelastic_modes.bdf" scr=yes old=no delete=f04,log,xdb

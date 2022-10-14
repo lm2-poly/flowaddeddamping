@@ -16,6 +16,22 @@ def SPC(file, nodelist, profile_nodes_len):
         file.write('SPC1, 100, 123456, '+str(i+1)+'\n')
         file.write('SPC1, 100, 123456, ' + str(len(nodelist) - i) + '\n')
 
+def SPCF(file, nodelist_object):
+    #See documentation for SPC1
+    file.write("$* Pressure constraints\n")
+    ngrid = len(nodelist_object.nodelist)
+    corresp_nodes = []
+    k = 0
+    for i in range(len(nodelist_object.fluidmesh)):
+        x = nodelist_object.fluidmesh[i, 0]
+        y = nodelist_object.fluidmesh[i, 1]
+        z = nodelist_object.fluidmesh[i, 2]
+        if y == 0 or y == max(nodelist_object.fluidmesh[:,1]) or\
+                z == min(nodelist_object.fluidmesh[:,2]) or z == max(nodelist_object.fluidmesh[:,2]):
+            file.write('SPC1, 100, 0, '+str(i + 1 + ngrid)+'\n')
+    file.write('$*\n')
+    return corresp_nodes
+
 def ACMODL(file):
     #See documentation for ACMODL
     file.write("$*\n")
@@ -58,7 +74,7 @@ def AERO(file, nodes_object, velocity = 100, ref_length = 1, rhoref = 1.225):
     #See documentation for AERO
     file.write('AERO, , , '+str(ref_length/2)+', '+str(rhoref)+',\n$*\n')
 
-def MKAERO(file, SID, mach_matrix, freq_matrix, kfreq, densities, machs, velocity = None):
+def MKAERO(file, SID, mach_matrix, freq_matrix, velocities, densities, machs, velocity = None):
     #See documentation for MKAERO1, FLFACT, FLUTTER
     #This is not the most optimal way of writing it in terms of space but it works
     #For each mach number, write every reduced frequency
@@ -88,22 +104,22 @@ def MKAERO(file, SID, mach_matrix, freq_matrix, kfreq, densities, machs, velocit
     #If a velocity is negative, it is studied in depth
     #Therefore, if there is a negative velocity to check, add it to the test list
     if velocity != None:
-        kfreq = np.append(kfreq,abs(velocity))
-        kfreq = np.unique(kfreq)
+        kfreq = np.append(velocities,abs(velocity))
+        kfreq = np.unique(velocities)
     file.write('$ Velocities\n')
     file.write('FLFACT, 30')
     skip = 0
-    for i in range(len(kfreq)):
+    for i in range(len(velocities)):
         if i == 7:
             file.write("\n")
             skip = i
         elif i - skip == 8 and i > 8:
             file.write(", \n")
             skip = i
-        if kfreq[i] == velocity:
-            file.write(', ' + str(format(-kfreq[i], '.2E')))
+        if velocities[i] == velocity:
+            file.write(', ' + str(format(-velocities[i], '.2E')))
         else:
-            file.write(', ' + str(format(kfreq[i], '.2E')))
+            file.write(', ' + str(format(velocities[i], '.2E')))
 
     file.write('\n')
 

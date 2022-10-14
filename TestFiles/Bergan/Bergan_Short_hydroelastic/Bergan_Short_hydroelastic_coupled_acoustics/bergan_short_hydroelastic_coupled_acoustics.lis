@@ -1,0 +1,224 @@
+-----------------------------------
+Nastran to Simcenter v1934.0.0.2202 Translator 
+Nastran Vendor : Simcenter 
+-----------------------------------
+Date : 13-Oct-22  
+Input File : C:\Users\danic\Documents\3 - 
+STG-CRSNG_E2022\flowaddeddamping\TestFiles\Bergan\Bergan_Short_hydroelastic\Bergan_Short_hydroelastic_coupled_acoustics\bergan_short_hydroelastic_coupled_acoustics.op2 
+Import Mode : Import - General 
+Data Checking : Standard 
+-----------------------------------
+
+
+*** 10:02:57 ***
+Opening op2 file... 
+...Binary file generated with a WINDOWs or LINUX type platform 
+...NX NASTRAN version stamp NX2020.2 detected from op2 file 
+
+*** 10:02:57 ***
+Create dictionary for information stored in op2 file... 
+...Reading datablocks 
+
+      IBULK         ICASE   
+
+...2 datablocks in op2 file have been catalogued 
+...Dictionary for op2 file compiled 
+...Case control card images from ICASE 
+...Bulk data card images from IBULK 
+
+*** 10:02:59 ***
+Parsing input file... 
+Input file parsed 
+
+*** 10:03:00 ***
+Evaluating bulk data cards... 
+Bulk data cards evaluated 
+
+*** 10:03:00 ***
+Reading Case Control information... 
+ 
+Case Control information processed 
+
+*** 10:03:00 ***
+Setting solver file unit system... 
+...Searching solver file for PARAM,UNITSYS card... 
+...PARAM,UNITSYS,MN-MM was found... 
+......Solver file unit system is set to (mN)(mm)(kg)... 
+Solver file unit system set 
+
+*** 10:03:00 ***
+Reading element data... 
+Element data processed 
+
+*** 10:03:01 ***
+Reading edt data... 
+Edt data processed 
+
+*** 10:03:01 ***
+Reading node and coordinate system data... 
+Node and coordinate system data processed 
+
+*** 10:03:01 ***
+Reading physical property data... 
+Physical property data processed 
+
+*** 10:03:01 ***
+Reading material data... 
+Material data processed 
+
+*** 10:03:01 ***
+Reading constraint data... 
+Constraint data processed 
+
+*** 10:03:01 ***
+Reading dynamic data... 
+Dynamics data processed 
+
+*** 10:03:01 ***
+Assembling case control data... 
+...GRID card detected with a fluid flag 
+...Creating a fem of analysis type 'Vibro-Acoustic' 
+...Creating a solution of analysis type 'Vibro-Acoustic' 
+...Import selective loads as a field data 
+Case control data assembled 
+
+*** 10:03:01 ***
+Assembling case control SET data... 
+Case control SET data assembled... 
+
+*** 10:03:01 ***
+Reading table data... 
+Table data processed 
+
+*** 10:03:01 ***
+Assembling physical property data... 
+...Processing PSOLID physical properties... 
+Physical property data assembled 
+
+*** 10:03:01 ***
+Assembling node data... 
+...Generating a group for fluid nodes... 
+Node data assembled 
+
+*** 10:03:01 ***
+Assembling element data... 
+...Processing CPENTA elements... 
+
+...A total of 2 mesh collectors generated with 2 meshes 
+Element data assembled 
+
+*** 10:03:02 ***
+Assembling edt data... 
+...Processing ACMODL entities... 
+Edt data assembled 
+
+*** 10:03:02 ***
+Assembling dynamics data... 
+...Processing EIGC dynamics entities... 
+...Processing EIGRL dynamics entities... 
+Dynamics data assembled 
+
+*** 10:03:02 ***
+Assembling load and constraint data... 
+...Processing SPC1 constraints... 
+...Processing GRID constraints... 
+......Creating constraint set 101 for GRID card PS entries 
+Load and constraint data assembled 
+
+*** 10:03:02 ***
+Assembling material data... 
+...Processing MAT1 materials... 
+...Processing MAT10 materials... 
+Material data assembled 
+
+*** 10:03:02 ***
+Assembling dit data... 
+...Processing TABDMP1 dit entities... 
+Dit data assembled 
+
+*** 10:03:02 ***
+Assembling PARAM data... 
+...Skipping PARAM,UNITSYS,MN-MM... 
+...Processing PARAM cards for bulk data... 
+PARAM data assembled 
+
+*** 10:03:02 ***
+Assembling solution information... 
+...Solver set to Simcenter Nastran... 
+...Analysis type set to Vibro-Acoustic... 
+...Solution type set to SOL SOL 107 Direct Complex Eigenvalues... 
+...Solution name set to 'bergan_short_hydroelastic_coup'... 
+...Processing solver parameters... 
+...Subcase 1 assigned step name 'SUBCASE - EIGENVALUE METHOD 1'... 
+......Attaching reference to eigenvalue extraction data... 
+......Attaching reference to eigenvalue extraction data... 
+......Attaching reference to eigenvalue extraction data... 
+......Adopting output requests... 
+...Processing solution attributes... 
+......Adopting output requests... 
+......Attaching CMETHOD reference to EIGC eigenvalue extraction data... 
+......Attaching METHOD reference to EIGRL eigenvalue extraction data... 
+......Attaching METHOD(FLUID) reference to EIGRL eigenvalue extraction data... 
+...Processing global constraints... 
+......Adopting solver set "SPC SS. SID 100"... 
+......Adopting solver set "SPC SS. SID 101"... 
+...Processing global simulation objects... 
+...Processing global loads... 
+...1 Subcase generated 
+Solution information assembled 
+
+*** 10:03:02 ***
+Compacting element associated data... 
+Element associated data compacted 
+
+*** 10:03:02 ***
+---------------------
+ANALYSIS OF BULK DATA 
+---------------------
+****************************************************************
+* Card     | Cards      | Entities   | Min Id     | Max Id     *
+* Name     | Recognized | Imported   |            |            *
+****************************************************************
+* ACMODL   | 1          | 1          |            |            *
+* CPENTA   | 35320      | 35320      | 1          | 35320      *
+* EIGC     | 1          | 1          | 102        | 102        *
+* EIGRL    | 1          | 1          | 101        | 101        *
+* GRID     | 101049     | 101049     | 1          | 101049     *
+* MAT1     | 1          | 1          | 1          | 1          *
+* MAT10    | 1          | 1          | 2          | 2          *
+* PARAM    | 6          | 5          |            |            *
+* PSOLID   | 2          | 2          | 1          | 2          *
+* SPC1     | 988        | 43086      | 100        | 100        *
+* TABDMP1  | 1          | 1          | 300        | 300        *
+****************************************************************
+
+
+--------------------
+SUMMARY OF BULK DATA 
+--------------------
+Run Date : 13-Oct-22  
+Time : 10:03:02  
+ 
+Input File : C:\Users\danic\Documents\3 - 
+STG-CRSNG_E2022\flowaddeddamping\TestFiles\Bergan\Bergan_Short_hydroelastic\Bergan_Short_hydroelastic_coupled_acoustics\bergan_short_hydroelastic_coupled_acoustics.op2 
+ 
+*************************************************************
+* Entity             | Number     | Min Id     | Max Id     *
+*                    | Imported   |            |            *
+*************************************************************
+* Nodes              | 101049     | 1          | 101049     *
+* Restraints         | 43086      | 100        | 100        *
+* Elements           | 35320      | 1          | 35320      *
+* Physicals          | 2          | 1          | 2          *
+* Materials          | 2          | 1          | 2          *
+* Modeling Object    | 4          | 101        | 102        *
+*************************************************************
+
+>>> 0 Warnings found 
+>>> 0 Errors found 
+
+*** 10:03:02 ***
+Uploading Nastran model to Simcenter
+
+*** 10:03:31 ***
+Nastran model uploaded to Simcenter

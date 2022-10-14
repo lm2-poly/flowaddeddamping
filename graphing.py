@@ -26,7 +26,7 @@ CFX_nas = pd.read_csv(CFX_nas, sep=';', header = None).to_numpy()
 f_CFX = 173.71
 L_CFX = 95E-3
 #CFX_num[:,0] = CFX_num[:,0]/(f_CFX*L_CFX)
-CFX_num[:,1] = CFX_num[:,1] - CFX_num[0,1]
+#CFX_num[:,1] = CFX_num[:,1] - CFX_num[0,1]
 #CFX_nas[:,0] = CFX_nas[:,0]/(f_CFX*L_CFX)
 
 plt.figure("Added damping")

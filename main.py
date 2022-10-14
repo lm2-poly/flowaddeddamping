@@ -18,13 +18,12 @@ import time
 from coupling import *
 
 if __name__ == '__main__':
-
     #Input data (mm-kg-mN-s)
 
     #File names
     #Put the file names used for the analysis files (no extensions) and the profile (with extension)
-    filename = r'C:\Users\danic\Documents\3 - STG-CRSNG_E2022\HydroElasticNastran\TestFiles\NACA0003\NACA0003'
-    profile = r'C:\Users\danic\Documents\3 - STG-CRSNG_E2022\HydroElasticNastran\TestFiles\NACA0003\NACA0003.dat'
+    filename = r'TestFiles\Bergan\F1'
+    profile = r'TestFiles\Bergan\F1.dat'
     #results_filename = r'C:\Users\danic\Documents\3 - STG-CRSNG_E2022\HydroElasticNastran\TestFiles\NACA0003.csv'
     results_filename = None
 
@@ -39,8 +38,8 @@ if __name__ == '__main__':
     analysis_type = "hydroelastic"
 
     #Dimensions: mm
-    rootchord = 95.0
-    tipchord = 95.0
+    rootchord = 250.0
+    tipchord = 250.0
     span = 150.0
     roottwist = 0.0
     tiptwist = 0.0
@@ -52,26 +51,27 @@ if __name__ == '__main__':
     spacing = 39/250
 
     #Normalized by the chord
-    envelope_chord = (1.25*rootchord)/rootchord
+    #Vérifier la grandeur du volume fluide, ça peut affecter les résultats de manière assez importante
+    envelope_chord = 2.0
     envelope_thickness = 150/rootchord
 
     #Mesh parameters
-    mesh_size_solid = 6/rootchord #Mesh size for the profile, normalized by the chord
-    mesh_size_fluid = 10/rootchord
+    mesh_size_solid = 5/rootchord #Mesh size for the profile, normalized by the chord
+    mesh_size_fluid = 7/rootchord
     SpanDensity = 41 #Number of solid elements spanwise, must be odd
     nchord = 16 #Number of panels chordwise
     nspan = 16 #Number of panels spanwise
 
     #Material properties: N
     #Solid
-    # E = 68.890E6 #Young's modulus in kPa (mN/mm^2)
-    # nu = 0.33 #Poisson's ratio
-    # rho_solid = 2711.0E-9 #Solid density in kg/mm^3
+    E = 68.890E6 #Young's modulus in kPa (mN/mm^2)
+    nu = 0.33 #Poisson's ratio
+    rho_solid = 2711.0E-9 #Solid density in kg/mm^3
 
     #Other material
-    E = 115.0E6
-    nu = 0.33
-    rho_solid = 7800.0E-9
+    #E = 115.0E6
+    #nu = 0.33
+    #rho_solid = 7800.0E-9
 
     #Fluid properties and characteristics
 
@@ -111,13 +111,16 @@ if __name__ == '__main__':
     kfreqmax = fmax*rootchord/Urealmin
     kfreqmin = fmin*rootchord/Urealmax
 
-    kfreq = np.linspace(Urealmin, Urealmax, 75)
     print("Velocities used go from "+str(Urealmin/1000)+" to "+str(Urealmax/1000)+" m/s")
     print("Mach numbers used go from " + str(Urealmin/soundspeed) + " to " + str(Urealmax/soundspeed))
     print("Reduced frequencies used go from " + str(kfreqmin) + " to " + str(kfreqmax))
 
     densities = [1.0]  # Density
-    velocities = np.linspace(Urealmin,Urealmax,10)
+    velocities = np.array([2.326783868, 5.015511892, 7.445708376, 9.927611169, 12.40951396, 14.94312306, 17.42502585, 20.06412691,
+                  20.99276112, 22.44053775, 24.0434333, 27.92140641])*1000
+    #velocities = np.array([5, 10, 15, 20, 25, 28])*1000
+    #velocities = np.array([5, 8, 10, 15, 20, 25])*1000
+    #velocities = np.linspace(Urealmin,Urealmax,10)
     machs = [np.mean(velocities) / soundspeed]
 
     #Flow characteristics (reference values for reduced frequency)
@@ -163,7 +166,7 @@ if __name__ == '__main__':
     fluid = flow(ref_velocity = ref_velocity,
                  ref_length = ref_length,
                  rho_flow = rho_flow_aero,
-                 kfreq = kfreq,
+                 velocities = velocities,
                  density_ratios = densities,
                  machs = machs,
                  mach_matrix = mach_matrix,
@@ -178,10 +181,10 @@ if __name__ == '__main__':
                flow_object = fluid)
 
     #wing.show()
-
+    #exit()
     wing.write()
 
-    wing.run()
+    wing.run(nmodes = 10)
 
     end_time = time.time()
 
