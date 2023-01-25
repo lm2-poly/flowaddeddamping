@@ -40,7 +40,7 @@ def airfoil_gmeshing(polygon_vertices, mesh_size, n=1, show = False):
 
     gmsh.option.setNumber("Mesh.Format", 31)
 
-    # GMSH VISUALISATION (plot of the meshing)
+    # Gmsh plotting
     if show:
         gmsh.fltk.run()
 
@@ -99,14 +99,14 @@ def envelope_gmeshing(envelope_vertices, airfoil_vertices, mesh_size, n = 1, sho
                                 envelope_vertices[vertex_index,2], mesh_size, vertex_index+last_index+1)
         new_last_index = vertex_index+last_index+1
 
-    #Adding the overall spline and creating the surface
+    #Adding the overall spline and creating the surface for the envelope
     gmsh.model.geo.addLine(new_last_index, new_last_index-1, 0)
     gmsh.model.geo.addLine(new_last_index-1, new_last_index-2, 1)
     gmsh.model.geo.addLine(new_last_index-2, new_last_index-3, 2)
     gmsh.model.geo.addLine(new_last_index-3, new_last_index, 3)
     gmsh.model.geo.addCurveLoop([0, 1, 2, 3], tag=10+2*n)
     wiretags = [10+2*n]
-    # Adding the overall spline and creating the surface
+    # Adding the overall spline and creating the surface for the profile
     for i in range(n):
         gmsh.model.geo.addSpline(np.linspace(i * npoints_profile, (i + 1) * npoints_profile - 1, npoints_profile), 2 * i+4)
         gmsh.model.geo.addLine((i + 1) * npoints_profile - 1, i * npoints_profile, 2 * i + 5)
@@ -128,7 +128,7 @@ def envelope_gmeshing(envelope_vertices, airfoil_vertices, mesh_size, n = 1, sho
 
     gmsh.option.setNumber("Mesh.Format", 31)
 
-    # GMSH VISUALISATION (plot of the meshing)
+    # Gmsh plotting
     if show:
         gmsh.fltk.run()
 

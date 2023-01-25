@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.interpolate import CubicSpline
 
-profile_filename = r'TestFiles\Bergan\F1.dat'
+profile_filename = r'TestFiles\NACA0009\NACA_0009.dat'
 
 profile = open(profile_filename, 'r')
 raw_coords = profile.readlines()

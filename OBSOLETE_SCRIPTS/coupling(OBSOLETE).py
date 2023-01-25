@@ -436,7 +436,6 @@ def write_addedmass(file, Ma, corresp_nodes):
 
     print("Done")
 
-@njit()
 def matrix_indexing(indices, addedmass, index, corresp_nodes):
     node_row = (index // 6 + 1)
     node_col = (index // 6 + 1)
@@ -447,7 +446,6 @@ def matrix_indexing(indices, addedmass, index, corresp_nodes):
     masses = addedmass[0, index]
     return node_row, node_col, DOF_row, DOF_col, masses
 
-@njit()
 def write_DMIG(node_rows, node_cols, DOF_rows, DOF_cols, addedmass, corresp_nodes, DMIG):
     for i in range(len(node_rows)):
         node_row = node_rows[i]
@@ -926,7 +924,6 @@ def write_P1(file, P1):
         file.write(
             "DMI, P1P, " + str(col) + ', ' + str(row) + ', ' + str(P1[row, col]) + '\n')
     file.write('$*\n')
-
 
 def write_mass(file, M2GG):
     indices = np.nonzero(M2GG)

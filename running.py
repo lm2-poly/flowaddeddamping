@@ -12,16 +12,9 @@ from nodes import *
 from loads import *
 from elements import *
 from headings import *
-from analysis import *
 import matplotlib.pyplot as plt
 from pathlib import Path
 import warnings
-from coupling import *
-import pickle
-import scipy.linalg as scpl
-import scipy.sparse as sp
-import scipy.sparse.linalg as spl
-
 
 def naming(filename, analysis_type = None, create_folder = False):
     if analysis_type != None:
@@ -80,6 +73,8 @@ def naming(filename, analysis_type = None, create_folder = False):
     return file_in, file_out, file_out_txt, file_verif, file_run, file_num, filename
 
 def run(filename, nastran_location = r'"C:\Program Files\Siemens\Simcenter3D_2020.2\NXNASTRAN\bin\nastranw.exe"'):
+    #Based on Olivier Duchesne's code for launching NASTRAN's simulations automatically    
+    
     #Naming the files
     file_in, file_out, file_out_txt, file_verif, file_run, file_num, filename = naming(filename)
 
@@ -114,10 +109,10 @@ class model:
         #Defining the filenames and other important parameters
         self.filename = filename
         self.profile = profile
-        #Making sure the analysis type exit
+        #Making sure the analysis type exists
         if analysis_type == "static" or analysis_type == "modes" or analysis_type == "aeroelastic" or\
                 analysis_type == "uncoupled_acoustics" or analysis_type == "coupled_acoustics" or\
-                analysis_type == 'hydroelastic' or analysis_type == 'simulated_modes':
+                analysis_type == 'hydroelastic':
             self.analysis_type = analysis_type
         else:
             print("Analysis type unknown")
@@ -128,14 +123,12 @@ class model:
         self.file_out_txt = file_out_txt
         self.file_out = file_out
         self.file_num = file_num
-        self.Kf = None
-        self.AGG = None
         self.addedmass = False
         self.fn = np.zeros(1000)
 
 
     def setup(self, geometry_object, mesh_object, solid_object, fluid_object, flow_object = None):
-        if self.analysis_type == "hydroelastic" or self.analysis_type == "simulated_modes":
+        if self.analysis_type == "hydroelastic":
             # For an hydroelastic analysis, define the different objects
             self.geom = geometry_object
             self.mesh = mesh_object
@@ -149,8 +142,10 @@ class model:
 
             # Loading the profile
             nodelist.profile_load(self.profile, n = geometry_object.n_hydrofoils, spacing = geometry_object.hydrofoil_spacing)
-            #Adding cascades
+            
+            #To add cascades (work in progress)
             #nodelist.cascade(n = geometry_object.n_hydrofoils, spacing = geometry_object.hydrofoils_spacing)
+            
             nodelist.envelope_load(envelope_chord = geometry_object.envelope_chord, thick=geometry_object.thick,
                                    n = geometry_object.n_hydrofoils, spacing = geometry_object.hydrofoil_spacing)
 
@@ -200,34 +195,15 @@ class model:
                 self.machs = flow_object.machs
                 self.mach_matrix = flow_object.mach_matrix
                 self.freq_matrix = flow_object.freq_matrix
-                self.results_filename = flow_object.results_filename
                 self.velocity = flow_object.velocity
 
-    def show(self):
-        #Selecting the modes accordingly
-        if self.analysis_type != "hydroelastic":
-            nodelist = self.nodelist
-        else:
-            nodelist = self.modes.nodelist
-        # Showing the imported profile points
-        nodelist.show_profile()
-
-        # Showing the wing points
-        nodelist.show_wing()
-
-        # Showing the aero panels points for the wing
-        nodelist.show_aero()
-
-        plt.show(block = True)  # Show figures if necessary
-        exit()
-
-    def write(self, EXTOUT = False):
+    def write(self):
         analysis_type = self.analysis_type
         if analysis_type == "hydroelastic":
             print("Writing the modal analysis input file")
-            self.modes.write(EXTOUT = False)
+            self.modes.write()
             print("Writing the coupled acoustics analysis input file")
-            self.coupled.write(EXTOUT = False)
+            self.coupled.write()
 
         else:
             nodelist = self.nodelist
@@ -238,31 +214,16 @@ class model:
             if self.addedmass == False:
                 if analysis_type == "static":
                     headers_bending(f)
-                elif analysis_type == "modes" and EXTOUT == False:
+                elif analysis_type == "modes":
                     headers_modes(f)
-                elif analysis_type == "modes" and EXTOUT == True:
-                    headers_modes_EXTOUT(f)
                 elif analysis_type == "uncoupled_acoustics":
                     headers_acoustics_real(f)
-                elif analysis_type == "coupled_acoustics" and EXTOUT == False:
+                elif analysis_type == "coupled_acoustics":
                     headers_acoustics_complex(f)
-                elif analysis_type == "coupled_acoustics" and EXTOUT == True:
-                    self.used_nodes = nodes_to_use(nodelist)
-                    corresp_solid_nodes, corresp_fluid_nodes = nodelist.corresponding(self.used_nodes)
-                    nsol = len(corresp_solid_nodes) * 6
-                    nflu = len(corresp_fluid_nodes)
-                    headers_acoustics_complex_EXTOUT(f, nsol, nflu)
                 elif analysis_type == "aeroelastic":
                     headers_aero(f)
-            elif self.addedmass == True and analysis_type == "aeroelastic" and EXTOUT == False:
+            elif self.addedmass == True and analysis_type == "aeroelastic":
                 headers_hydro(f, P1 = self.P1, nmodes = self.nmodes)
-            elif self.addedmass == True and analysis_type == 'modes' and EXTOUT == False:
-                headers_simulated_modes(f)
-            elif self.addedmass == True and analysis_type == "modes" and EXTOUT == True:
-                headers_addedmass_modes_EXTOUT(f)
-
-
-            # Writing the points using the GRID cards
 
             # Defining the materials and element properties
             print("Writing material and element properties")
@@ -288,13 +249,11 @@ class model:
                 MAT1(f, MID=3, E=1.0, nu=0.3, rho=1.0)
                 PSOLID(f, PID=3, MID=3)
 
+            # Writing the points using the GRID cards
             print("Writing the nodes")
             self.corresp_nodes = nodelist.GRIDWrite(f, self.used_nodes)
             if analysis_type == "uncoupled_acoustics" or analysis_type == "coupled_acoustics":
                 self.corresp_fluid_nodes = nodelist.GRIDWriteFluid(f)
-            if self.addedmass == True and EXTOUT == True:
-                print("Writing the simulating nodes")
-                nodelist.simulateWrite(f, self.simNodes)
             fluid_nodes_len = 0
 
             if analysis_type == "aeroelastic":
@@ -325,9 +284,7 @@ class model:
             # Defining the constraints and loads:
             print("Writing the constraints and loads")
             SPC(f, nodelist=nodelist.nodelist, profile_nodes_len = len(nodelist.mesh_profile))
-            if analysis_type == "uncoupled_acoustics" or analysis_type == "coupled_acoustics":
-                ACMODL(f)
-                #SPCF(f, nodelist_object=nodelist)
+            if analysis_type == "uncoupled_acoustics" or analysis_type == "coupled_acoustics": ACMODL(f)
             if analysis_type == "static": GRAV(f)
 
             # Footer and closing
@@ -342,7 +299,7 @@ class model:
             self.modes.run()
             time2 = time.time()
             vac_an = time2 - time1
-            print("Temps requis par l'analyse modale dans le vide: "+str(time2-time1)+"s")
+            print("Required time for the vacuum modal analysis: "+str(vac_an)+"s")
 
             # Extracting the calculated modes without added mass
             op2 = read(self.modes.filename)
@@ -381,14 +338,13 @@ class model:
             self.coupled.run()
             time2 = time.time()
             fr_an = time2 - time1
-            print("Temps requis par l'analyse modale vibro-acoustique: " + str(time2 - time1) + "s")
+            print("Required time for the coupled modal analysis: " + str(fr_an) + "s")
 
 
             # Extracting the calculated modes with added mass
             op2 = read(self.coupled.filename)
             eigenvectors = op2.eigenvectors[1].data[:, :, :].real
             eigenvalues = op2.eigenvalues[''].eigenvalues
-            modes_s = eigenvectors[:,:len(np.unique(self.modes.used_nodes)),:]
 
             LAMBDAcoup = np.zeros([len(eigenvalues)], dtype='float32')
             for i in range(len(eigenvalues)):
@@ -418,6 +374,7 @@ class model:
 
             phi_f = phi
 
+            #Building the P1 matrix
             n = min(len(LAMBDAvac), len(LAMBDAcoup))
             j=0
             k=0
@@ -426,106 +383,61 @@ class model:
                     j += 1
                 elif LAMBDAcoup[i] < (10*2*np.pi)**2:
                     k += 1
-            n = min(len(LAMBDAvac[j:]), len(LAMBDAcoup[k:]),nmodes)
-            LAMBDAvac = LAMBDAvac[j:n+j]
-            LAMBDAcoup = LAMBDAcoup[k:n+k]
-            phi_s = phi_s[:,j:n+j]
-            phi_f = phi_f[:,k:n+k]
+            n = min(len(LAMBDAvac[j:]), len(LAMBDAcoup[k:]))
+            LAMBDAvac = LAMBDAvac[:n]
+            LAMBDAcoup = LAMBDAcoup[:n]
+            phi_s = phi_s[:,:n]
+            phi_f = phi_f[:,:n]
 
             n = len(LAMBDAcoup)
-            self.aero.nmodes = n
+            self.aero.nmodes = min(n,nmodes)
 
+            #As long as cascades are not implemented, keep following section
+            MAC = np.zeros([n,n])
+            from numpy.linalg import norm
+            for ii in range(n):
+                for jj in range(n): #Modal assurance criterion as described in the article
+                    MAC[ii,jj] = norm(phi_s[:,ii].T@phi_f[:,jj])**2/(norm(phi_s[:,ii])**2*norm(phi_f[:,jj])**2)
+
+            print("MAC = ")
+            print(str(MAC))
+            
+            mode_index = np.zeros(self.aero.nmodes)
+            for i in range(self.aero.nmodes):
+                mode_index[i] = np.argmax(MAC[i,:]) #Rearranging to get the best fit between modes
+                print("MAC("+str(i+1)+','+str(int(mode_index[i]+1))+') = '+str(MAC[i,int(mode_index[i])]))
+
+            #Calculating first matrix to change frequencies
+            invLAMBDAcoupmat = np.zeros([self.aero.nmodes,self.aero.nmodes])
+            LAMBDAvacmat = np.zeros([self.aero.nmodes,self.aero.nmodes])
+            LAMBDA = np.zeros([self.aero.nmodes,self.aero.nmodes])
+            self.aero.fn = np.zeros(self.aero.nmodes)
+            for i in range(self.aero.nmodes):
+                invLAMBDAcoupmat[i,i] = np.sqrt(1/LAMBDAcoup[int(mode_index[i])])
+                LAMBDAvacmat[i,i] = np.sqrt(LAMBDAvac[i])
+                LAMBDA[i,i] = LAMBDAvac[i]
+                self.aero.fn[i] = np.sqrt(LAMBDAcoup[i])/(2*np.pi)
+            #P matrix as described in the article
+            P1 = invLAMBDAcoupmat@LAMBDAvacmat
+            n = len(P1)
+            
             plt.figure('Compared Frequencies')
             plt.xlabel(r'$modes$')
             plt.ylabel(r'$f_n$')
             plt.title("Frequency of the different modes in vacuum and in resting water")
             plt.grid(True)
             mode_number = np.arange(1,n+1,1)
-            plt.plot(mode_number, np.sqrt(LAMBDAvac), label='Vacuum')
-            plt.plot(mode_number, np.sqrt(LAMBDAcoup), label='Resting fluid')
+            plt.plot(mode_number, np.sqrt(LAMBDAvac[:n]), label='Vacuum')
+            plt.plot(mode_number, np.sqrt(LAMBDAcoup[:n]), label='Resting fluid')
             plt.legend(loc='best')
-
-
-            #Tant que le calcul des cascades n'est pas implémenté, garder cette section
-            MAC = np.zeros([n,n])
-            from numpy.linalg import norm
-            for ii in range(n):
-                for jj in range(n):
-                    MAC[ii,jj] = norm(phi_s[:,ii].T@phi_f[:,jj])**2/(norm(phi_s[:,ii])**2*norm(phi_f[:,jj])**2)
-
-            mode_index = np.zeros(n)
-            for i in range(n):
-                mode_index[i] = np.argmax(MAC[i,:])
-
-            #Calcul de la première matrice de passage en fréquences
-            invLAMBDAcoupmat = np.zeros([len(LAMBDAcoup),len(LAMBDAcoup)])
-            LAMBDAvacmat = np.zeros([len(LAMBDAvac),len(LAMBDAvac)])
-            LAMBDA = np.zeros([len(LAMBDAcoup),len(LAMBDAcoup)])
-            self.aero.fn = np.zeros(n)
-            for i in range(len(LAMBDAcoup)):
-                invLAMBDAcoupmat[i,i] = np.sqrt(1/LAMBDAcoup[int(mode_index[i])])
-                LAMBDAvacmat[i,i] = np.sqrt(LAMBDAvac[i])
-                LAMBDA[i,i] = LAMBDAvac[i]
-                self.aero.fn[i] = np.sqrt(LAMBDAcoup[i])/(2*np.pi)
-            P1 = invLAMBDAcoupmat@LAMBDAvacmat
-
-            #Calcul de la matrice de passage en modes (implémentation du calcul en cascades)
-            #P2 = np.linalg.pinv(phi_s)@phi_f
-            for i in range(n):
-                phi_s[:,i] = phi_s[:,i]/norm(phi_s[:,i])
-                phi_f[:, i] = phi_f[:, i] / norm(phi_f[:, i])
-            phi_hh = np.linalg.pinv(phi_f)@phi_s
-            for i in range(n):
-                phi_hh[:,i] = phi_hh[:,i]/norm(phi_hh[:,i])
-
-            # from numpy.linalg import inv
-            # P1 = phi_hh.T
-            # P2 = phi_hh
-            #
-            # Mhh = np.zeros([n,n])
-            # Khh = np.zeros([n,n])
-            # for i in range(n):
-            #     mat = np.array([P1[:,i]]).T@np.array([P2[:,i]])
-            #     Mhh += mat
-            #     Khh += LAMBDA[i,i]*mat
-            #
-            # for i in range(n):
-            #     diagM = Mhh[i,i]
-            #     diagK = Khh[i,i]
-            #     for j in range(n):
-            #         if Mhh[i,j]/diagM < 10**-2:
-            #             Mhh[i,j] = 0.0
-            #         if Khh[i,j]/diagK < 10**-2:
-            #             Khh[i,j] = 0.0
-            #
-            # Mhh2 = P1@P2
-            # Khh2 = P1@LAMBDA@P2
-            #
-            # for i in range(n):
-            #     diagM = Mhh2[i,i]
-            #     diagK = Khh2[i,i]
-            #     for j in range(n):
-            #         if Mhh2[i,j]/diagM < 10**-2:
-            #             Mhh2[i,j] = 0.0
-            #         if Khh2[i,j]/diagK < 10**-2:
-            #             Khh2[i,j] = 0.0
-            #
-            # w1, vl1 = scpl.eig(Khh, Mhh)
-            # w2, vl2 = scpl.eig(Khh2, Mhh2)
-            #
-            # print('Mhh: '+str(np.allclose(Mhh,Mhh2)))
-            # print('Khh: ' + str(np.allclose(Khh, Khh2)))
-
-            #Fin de l'implémentation en cascades
-
-            #Attribution des matrices de passage
+            
             self.aero.P1 = P1
 
+            #Flag to indicate next aeroelastic simulation is going to be hydroelastic
             self.aero.addedmass = True
 
-
             timeb = time.time()
-            print("Temps requis par le calcul de la masse ajoutée: " + str(timeb - timea - fr_an - vac_an) + "s")
+            print("Required time for the added mass calculations: " + str(timeb - timea - fr_an - vac_an) + "s")
 
             print("Writing the aeroelastic input file with added mass")
             self.aero.write()
@@ -539,7 +451,7 @@ class model:
             print("Running")
             run(self.filename)
 
-    def analyse(self, scale = 1, show=True, fn_vac = None, fn_coup = None):
+    def analyse(self, show=True):
         analysis_type = self.analysis_type
         file_out_txt = self.file_out_txt
         file_out = self.file_out
@@ -547,7 +459,6 @@ class model:
         if analysis_type == "modes" or analysis_type == "coupled_acoustics":
             coupling = False
             op2 = read(self.filename)
-            modes = op2.eigenvectors[1].data
             mode_number = []
 
             wn = op2.eigenvalues[''].eigenvalues
@@ -577,38 +488,18 @@ class model:
                     plt.savefig('Frequency in resting fluid.pdf')
 
                 plt.show(block = True)
-            
-            used_nodes = np.unique(self.used_nodes)
-            undeformed = self.nodelist.nodelist[used_nodes]
-            d = len(undeformed)
-            i=0
-            p = 0
-            if show == True:
-                for mode_i in range(min(5,len(mode_number))):
-                    mode = mode_number[mode_i]
-                    deformation = modes[mode - 1,:,:]
-                    Tx = deformation[:,0].real
-                    Ty = deformation[:,1].real
-                    Tz = deformation[:,2].real
-                    deformation = np.array([Tx,Ty,Tz]).T
-                    deformed = undeformed + deformation*scale
-                    show_deformation(freq = fn[mode-1],
-                                     nodes = deformed,
-                                     mode = mode,
-                                     scale = scale,
-                                     coupling = coupling)
-
-                plt.show(block=True)
-            return fn, modes
+            return fn
 
         elif analysis_type == "uncoupled_acoustics":
             print("Please open Simcenter 3D to analyze the uncoupled acoustic modes")
 
-
         elif analysis_type == "hydroelastic":
-            self.aero.analyse()#fn_vac = self.fn_vac, fn_coup = self.fn_coup)
+            self.aero.analyse()
         
         elif analysis_type == "aeroelastic":
+            #pyNastran cannot read aeroelastic results from OP2 file -> custom f06 reader
+            # The following lines aim to read the text file until the appropriate section is found
+            # It is recommended to have an aeroelastic f06 file besides to follow along
             f = open(file_out_txt, 'r')
             rows = f.readlines()
             f.close()
@@ -715,27 +606,15 @@ class model:
             vstar = np.zeros([len(modes), len(machs), len(densities), len(velocities)])
             Re = np.zeros([len(modes), len(machs), len(densities), len(velocities)])
             Im = np.zeros([len(modes), len(machs), len(densities), len(velocities)])
-            from scipy.optimize import fsolve
-            import cmath
+            
+            #Extracting the results from f06 file
             for i in range(len(modes)):
                 for j in range(len(machs)):
                     for k in range(len(densities)):
                         for m in range(len(velocities)):
-                            #Re[i,j,k,m] = states[i,j,k,m,6]
-                            #Im[i,j,k,m] = states[i,j,k,m,5]
                             wd[i, j, k, m] = states[i, j, k, m, 6]
-                            #wn[i, k, k, m] = states[i, j, k, m, 4] * 2 * np.pi
-                            if fn_vac != None and fn_coup != None:
-                                wn[i, k, k, m] = states[i, j, k, m, 4] * 2 * np.pi#*fn_coup[i+1]/fn_vac[i]
-                            else:
-                                wn[i, k, k, m] = states[i, j, k, m, 4] * 2 * np.pi
+                            wn[i, k, k, m] = states[i, j, k, m, 4] * 2 * np.pi
                             zeta[i,j,k,m] = -states[i,j,k,m,3]/2
-                            #elif int(states[i,j,k,m,6])==0 and int(states[i,j,k,m,4])==0:
-                                #wn[i, k, k, m] = -states[i,j,k,m,5]/(zeta[i,j,k,m]+np.sqrt((zeta[i,j,k,m])**2-1))
-                            #zetawn = -states[i, j, k, m, 5]
-                            #root = fsolve(lambda x: eigenvals(x,wd[i,j,k,m],zetawn), [wd[i,j,k,m], zetawn/wd[i,j,k,m]])
-                            #wn[i,j,k,m] = root[0]
-                            #zeta[i,j,k,m] = root[1]
                             coeff = [1, 2*zeta[i,j,k,m]*wn[i,j,k,m], wn[i,j,k,m]**2]
                             eigenvalue = np.roots(coeff)
                             if len(eigenvalue) == 2:
@@ -744,8 +623,9 @@ class model:
                             Im[i,j,k,m] = eigenvalue.imag
                             with np.errstate(divide='ignore'):
                                 warnings.simplefilter("ignore")
-                                #zeta[i, j, k, m] = zetawn / wn[i, j, k, m]
-                                vstar[i,j,k,m] = velocities[m]/(self.ref_length*wn[i,j,k,m]/(2*np.pi))
+                                vstar[i,j,k,m] = velocities[m]/(self.ref_length*wn[0,j,k,0]/(2*np.pi))
+            
+            #Saving the data to a csv file
             for i in range(5):
                 data = np.array(
                 [velocities, vstar[i, 0, 0, :], wn[i, 0, 0, :] / (2 * np.pi), zeta[i, 0, 0, :], Re[i, 0, 0, :],
@@ -755,28 +635,23 @@ class model:
                 file_num = "".join(file_num)
                 np.savetxt(file_num, data, delimiter = ",")
 
+            #Displaying results
+            #To obtain similar graphs to what is presented in the article, see graphing.py
             if show == True:
                 #Velocity
                 plt.figure('Frequency and Damping - Velocity - Constant', figsize = (12,6))
                 plt.suptitle("Frequency and damping according to velocity")
                 # subplot 1
                 plt.subplot(1, 2, 2)
-                x = [0,5,10,15,20,25,28]
-                y = [0.02, 0.06, 0.095, 0.14, 0.18, 0.225, 0.27] - 0.02*np.ones(7)
-                #plt.scatter(x,y, color = 'black', marker = 'o', label = 'CFX')
-                #exp_data(self.results_filename)
                 plt.ylabel(r'$\zeta$')
                 plt.title("Adimensional damping according to velocity")
                 plt.grid(True)
                 for i in range(min(len(modes), 5)):
-                    if True:
-                        if True:
-                            for j in range(len(machs)):
-                                for k in range(len(densities)):
-                                    plt.xlabel(r'$U$ [m/s]')
-                                    plt.plot(velocities/1000, zeta[i, j, k, :],
-                                             label='Mode ' + str(modes[i]))  # + ', mach = ' + str(machs[j]) + \
-                                    # ', density = ' + str(densities[k]*self.rho_flow)+r'$kg/mm^3$')
+                    for j in range(len(machs)):
+                        for k in range(len(densities)):
+                            plt.xlabel(r'$U$ [m/s]')
+                            plt.plot(velocities/1000, zeta[i, j, k, :],
+                                        label='Mode ' + str(modes[i]))
                 plt.legend(loc='best')
                 plt.tight_layout()
 
@@ -786,13 +661,11 @@ class model:
                 plt.title("Frequency according to velocity")
                 plt.grid(True)
                 for i in range(min(len(modes), 5)):
-                    if True:
-                        for j in range(len(machs)):
-                            for k in range(len(densities)):
-                                plt.xlabel(r'$U$ [m/s]')
-                                plt.plot(velocities/1000, wn[i, j, k, :] / (2 * np.pi),
-                                         label='Mode ' + str(modes[i]))  # + ', mach = ' + str(machs[j]) + \
-                                # ', density = ' + str(densities[k]*self.rho_flow)+r'$kg/mm^3$')
+                    for j in range(len(machs)):
+                        for k in range(len(densities)):
+                            plt.xlabel(r'$U$ [m/s]')
+                            plt.plot(velocities/1000, wn[i, j, k, :] / (2 * np.pi),
+                                        label='Mode ' + str(modes[i]))
                 plt.legend(loc='best')
                 plt.tight_layout()
                 plt.savefig('Frequency and Damping - Velocity - Constant.png')
@@ -805,13 +678,11 @@ class model:
                 plt.title("Real part of the eigenvalue according to velocity")
                 plt.grid(True)
                 for i in range(min(len(modes), 5)):
-                    if True:
-                        for j in range(len(machs)):
-                            for k in range(len(densities)):
-                                plt.xlabel(r'$U$ [m/s]')
-                                plt.plot(velocities/1000, Re[i, j, k, :],
-                                         label='Mode ' + str(modes[i]))  # + ', mach = ' + str(machs[j]) + \
-                                # ', density = ' + str(densities[k]*self.rho_flow)+r'$kg/mm^3$')
+                    for j in range(len(machs)):
+                        for k in range(len(densities)):
+                            plt.xlabel(r'$U$ [m/s]')
+                            plt.plot(velocities/1000, Re[i, j, k, :],
+                                        label='Mode ' + str(modes[i]))
 
                 plt.legend(loc='best')
                 plt.tight_layout()
@@ -822,43 +693,35 @@ class model:
                 plt.title("Imaginary part of the eigenvalue according to velocity")
                 plt.grid(True)
                 for i in range(min(len(modes), 5)):
-                    if True:
-                        for j in range(len(machs)):
-                            for k in range(len(densities)):
-                                plt.xlabel(r'$U$ [m/s]')
-                                plt.plot(velocities/1000, Im[i, j, k, :],
-                                         label='Mode ' + str(modes[i]))  # + ', mach = ' + str(machs[j]) + \
-                                # ', density = ' + str(densities[k]*self.rho_flow)+r'$kg/mm^3$')
+                    for j in range(len(machs)):
+                        for k in range(len(densities)):
+                            plt.xlabel(r'$U$ [m/s]')
+                            plt.plot(velocities/1000, Im[i, j, k, :],
+                                        label='Mode ' + str(modes[i]))
 
                 plt.legend(loc='best')
                 plt.tight_layout()
                 plt.savefig('Eigenvalues - Velocity - Constant.png')
-
 
                 #Reduced velocity
                 plt.figure('Frequency and Damping - Reduced Velocity - Constant', figsize = (12,6))
                 plt.suptitle("Frequency and damping according to reduced velocity")
                 # subplot 1
                 plt.subplot(1, 2, 2)
-                #exp_data(self.results_filename)
                 plt.ylabel(r'Flow added damping $\zeta_f$')
                 plt.title("Adimensional added damping according to reduced velocity")
                 plt.grid(True)
                 for i in range(min(len(modes), 5)):
-                    if True:
-                        if True:
-                            for j in range(len(machs)):
-                                for k in range(len(densities)):
-                                    if self.fn[i] != 0:
-                                        plt.xlabel(r'$v^{*} = \frac{U}{f_nL}$')
-                                        plt.plot(velocities / (self.fn[i]*self.ref_length), zeta[i, j, k, :],
-                                                 label='Mode ' + str(modes[i]))  # + ', mach = ' + str(machs[j]) + \
-                                        # ', density = ' + str(densities[k]*self.rho_flow)+r'$kg/mm^3$')
-                                    else:
-                                        plt.xlabel(r'$v^{*} = \frac{U}{f_n(U)L}$ [m]')
-                                        plt.plot(velocities / (wn[i, j, k, :]*self.ref_length / (2 * np.pi)), zeta[i, j, k, :],
-                                                 label='Mode ' + str(modes[i]))  # + ', mach = ' + str(machs[j]) + \
-                                        # ', density = ' + str(densities[k]*self.rho_flow)+r'$kg/mm^3$')
+                    for j in range(len(machs)):
+                        for k in range(len(densities)):
+                            if self.fn[i] != 0:
+                                plt.xlabel(r'$v^{*} = \frac{U}{f_nL}$')
+                                plt.plot(velocities / (self.fn[i]*self.ref_length), zeta[i, j, k, :],
+                                            label='Mode ' + str(modes[i]))
+                            else:
+                                plt.xlabel(r'$v^{*} = \frac{U}{f_n(U)L}$ [m]')
+                                plt.plot(velocities / (wn[i, j, k, :]*self.ref_length / (2 * np.pi)), zeta[i, j, k, :],
+                                            label='Mode ' + str(modes[i]))
                 plt.legend(loc='best')
                 plt.tight_layout()
                 plt.savefig('Added Damping.pdf')
@@ -869,21 +732,17 @@ class model:
                 plt.title("Frequency according to reduced velocity")
                 plt.grid(True)
                 for i in range(min(len(modes), 5)):
-                    if True:
-                        for j in range(len(machs)):
-                            for k in range(len(densities)):
-                                if self.fn[i] != 0:
-                                    plt.xlabel(r'$v^{*} = \frac{U}{f_nL}$')
-                                    plt.plot(velocities / (self.fn[i]*self.ref_length), wn[i, j, k, :] / (2 * np.pi),
-                                             label='Mode ' + str(modes[i]))  # + ', mach = ' + str(machs[j]) + \
-                                    # ', density = ' + str(densities[k]*self.rho_flow)+r'$kg/mm^3$')
-                                else:
-                                    plt.xlabel(r'$v^{*} = \frac{U}{f_n(U)L}$ [m]')
-                                    plt.plot(velocities / (wn[i, j, k, :]*self.ref_length / (2 * np.pi)),
-                                             wn[i, j, k, :] / (2 * np.pi),
-                                             label='Mode ' + str(modes[i]))  # + ', mach = ' + str(machs[j]) + \
-                                    # ', density = ' + str(densities[k]*self.rho_flow)+r'$kg/mm^3$')
-
+                    for j in range(len(machs)):
+                        for k in range(len(densities)):
+                            if self.fn[i] != 0:
+                                plt.xlabel(r'$v^{*} = \frac{U}{f_nL}$')
+                                plt.plot(velocities / (self.fn[i]*self.ref_length), wn[i, j, k, :] / (2 * np.pi),
+                                            label='Mode ' + str(modes[i]))
+                            else:
+                                plt.xlabel(r'$v^{*} = \frac{U}{f_n(U)L}$ [m]')
+                                plt.plot(velocities / (wn[i, j, k, :]*self.ref_length / (2 * np.pi)),
+                                            wn[i, j, k, :] / (2 * np.pi),
+                                            label='Mode ' + str(modes[i]))
                 plt.legend(loc='best')
                 plt.tight_layout()
                 plt.savefig('Frequency and Damping - Reduced Velocity - Constant.png')
@@ -896,19 +755,16 @@ class model:
                 plt.title("Real part of the eigenvalue according to reduced velocity")
                 plt.grid(True)
                 for i in range(min(len(modes), 5)):
-                    if True:
-                        for j in range(len(machs)):
-                            for k in range(len(densities)):
-                                if self.fn[i] != 0:
-                                    plt.xlabel(r'$v^{*} = \frac{U}{f_nL}$ [m]')
-                                    plt.plot(velocities / (self.fn[i]*self.ref_length), Re[i, j, k, :],
-                                             label='Mode ' + str(modes[i]))  # + ', mach = ' + str(machs[j]) + \
-                                    # ', density = ' + str(densities[k]*self.rho_flow)+r'$kg/mm^3$')
-                                else:
-                                    plt.xlabel(r'$v^{*} = \frac{U}{f_n(U)L}$ [m]')
-                                    plt.plot(velocities / (wn[i, j, k, :]*self.ref_length / (2 * np.pi)), Re[i, j, k, :],
-                                             label='Mode ' + str(modes[i]))  # + ', mach = ' + str(machs[j]) + \
-                                    # ', density = ' + str(densities[k]*self.rho_flow)+r'$kg/mm^3$')
+                    for j in range(len(machs)):
+                        for k in range(len(densities)):
+                            if self.fn[i] != 0:
+                                plt.xlabel(r'$v^{*} = \frac{U}{f_nL}$ [m]')
+                                plt.plot(velocities / (self.fn[i]*self.ref_length), Re[i, j, k, :],
+                                            label='Mode ' + str(modes[i]))
+                            else:
+                                plt.xlabel(r'$v^{*} = \frac{U}{f_n(U)L}$ [m]')
+                                plt.plot(velocities / (wn[i, j, k, :]*self.ref_length / (2 * np.pi)), Re[i, j, k, :],
+                                            label='Mode ' + str(modes[i]))
 
                 plt.legend(loc='best')
                 plt.tight_layout()
@@ -919,19 +775,16 @@ class model:
                 plt.title("Imaginary part of the eigenvalue according to reduced velocity")
                 plt.grid(True)
                 for i in range(min(len(modes), 5)):
-                    if True:
-                        for j in range(len(machs)):
-                            for k in range(len(densities)):
-                                if self.fn[i] != 0:
-                                    plt.xlabel(r'$v^{*} = \frac{U}{f_nL}$ [m]')
-                                    plt.plot(velocities / (self.fn[i]*self.ref_length), Im[i, j, k, :],
-                                             label='Mode ' + str(modes[i]))  # + ', mach = ' + str(machs[j]) + \
-                                    # ', density = ' + str(densities[k]*self.rho_flow)+r'$kg/mm^3$')
-                                else:
-                                    plt.xlabel(r'$v^{*} = \frac{U}{f_n(U)L}$ [m]')
-                                    plt.plot(velocities / (wn[i, j, k, :]*self.ref_length / (2 * np.pi)), Im[i, j, k, :],
-                                             label='Mode ' + str(modes[i]))  # + ', mach = ' + str(machs[j]) + \
-                                    # ', density = ' + str(densities[k]*self.rho_flow)+r'$kg/mm^3$')
+                    for j in range(len(machs)):
+                        for k in range(len(densities)):
+                            if self.fn[i] != 0:
+                                plt.xlabel(r'$v^{*} = \frac{U}{f_nL}$ [m]')
+                                plt.plot(velocities / (self.fn[i]*self.ref_length), Im[i, j, k, :],
+                                            label='Mode ' + str(modes[i]))
+                            else:
+                                plt.xlabel(r'$v^{*} = \frac{U}{f_n(U)L}$ [m]')
+                                plt.plot(velocities / (wn[i, j, k, :]*self.ref_length / (2 * np.pi)), Im[i, j, k, :],
+                                            label='Mode ' + str(modes[i]))
 
                 plt.legend(loc='best')
                 plt.tight_layout()
@@ -943,20 +796,16 @@ class model:
                 plt.suptitle("Frequency and damping according to reduced velocity")
                 # subplot 1
                 plt.subplot(1, 2, 2)
-                #exp_data(self.results_filename)
                 plt.ylabel(r'$\zeta$')
                 plt.title("Adimensional damping according to reduced velocity")
                 plt.grid(True)
                 for i in range(min(len(modes), 5)):
-                    if True:
-                        if True:
-                            for j in range(len(machs)):
-                                for k in range(len(densities)):
-                                    plt.xlabel(r'$v^{*} = \frac{U}{f_n(U)L}$ [m]')
-                                    plt.plot(velocities / (wn[i, j, k, :] * self.ref_length / (2 * np.pi)),
-                                             zeta[i, j, k, :],
-                                             label='Mode ' + str(modes[i]))  # + ', mach = ' + str(machs[j]) + \
-                                    # ', density = ' + str(densities[k]*self.rho_flow)+r'$kg/mm^3$')
+                    for j in range(len(machs)):
+                        for k in range(len(densities)):
+                            plt.xlabel(r'$v^{*} = \frac{U}{f_n(U)L}$ [m]')
+                            plt.plot(velocities / (wn[i, j, k, :] * self.ref_length / (2 * np.pi)),
+                                        zeta[i, j, k, :],
+                                        label='Mode ' + str(modes[i]))
                 plt.legend(loc='best')
                 plt.tight_layout()
                 plt.savefig('Added Damping.pdf')
@@ -967,14 +816,12 @@ class model:
                 plt.title("Frequency according to reduced velocity")
                 plt.grid(True)
                 for i in range(min(len(modes), 5)):
-                    if True:
-                        for j in range(len(machs)):
-                            for k in range(len(densities)):
-                                plt.xlabel(r'$v^{*} = \frac{U}{f_n(U)L}$ [m]')
-                                plt.plot(velocities / (wn[i, j, k, :] * self.ref_length / (2 * np.pi)),
-                                         wn[i, j, k, :] / (2 * np.pi),
-                                         label='Mode ' + str(modes[i]))  # + ', mach = ' + str(machs[j]) + \
-                                # ', density = ' + str(densities[k]*self.rho_flow)+r'$kg/mm^3$')
+                    for j in range(len(machs)):
+                        for k in range(len(densities)):
+                            plt.xlabel(r'$v^{*} = \frac{U}{f_n(U)L}$ [m]')
+                            plt.plot(velocities / (wn[i, j, k, :] * self.ref_length / (2 * np.pi)),
+                                        wn[i, j, k, :] / (2 * np.pi),
+                                        label='Mode ' + str(modes[i]))
 
                 plt.legend(loc='best')
                 plt.tight_layout()
@@ -988,14 +835,12 @@ class model:
                 plt.title("Real part of the eigenvalue according to reduced velocity")
                 plt.grid(True)
                 for i in range(min(len(modes), 5)):
-                    if True:
-                        for j in range(len(machs)):
-                            for k in range(len(densities)):
-                                plt.xlabel(r'$v^{*} = \frac{U}{f_n(U)L}$ [m]')
-                                plt.plot(velocities / (wn[i, j, k, :] * self.ref_length / (2 * np.pi)),
-                                         Re[i, j, k, :],
-                                         label='Mode ' + str(modes[i]))  # + ', mach = ' + str(machs[j]) + \
-                                # ', density = ' + str(densities[k]*self.rho_flow)+r'$kg/mm^3$')
+                    for j in range(len(machs)):
+                        for k in range(len(densities)):
+                            plt.xlabel(r'$v^{*} = \frac{U}{f_n(U)L}$ [m]')
+                            plt.plot(velocities / (wn[i, j, k, :] * self.ref_length / (2 * np.pi)),
+                                        Re[i, j, k, :],
+                                        label='Mode ' + str(modes[i]))
 
                 plt.legend(loc='best')
                 plt.tight_layout()
@@ -1006,14 +851,12 @@ class model:
                 plt.title("Imaginary part of the eigenvalue according to reduced velocity")
                 plt.grid(True)
                 for i in range(min(len(modes), 5)):
-                    if True:
-                        for j in range(len(machs)):
-                            for k in range(len(densities)):
-                                plt.xlabel(r'$v^{*} = \frac{U}{f_n(U)L}$ [m]')
-                                plt.plot(velocities / (wn[i, j, k, :] * self.ref_length / (2 * np.pi)),
-                                         Im[i, j, k, :],
-                                         label='Mode ' + str(modes[i]))  # + ', mach = ' + str(machs[j]) + \
-                                # ', density = ' + str(densities[k]*self.rho_flow)+r'$kg/mm^3$')
+                    for j in range(len(machs)):
+                        for k in range(len(densities)):
+                            plt.xlabel(r'$v^{*} = \frac{U}{f_n(U)L}$ [m]')
+                            plt.plot(velocities / (wn[i, j, k, :] * self.ref_length / (2 * np.pi)),
+                                        Im[i, j, k, :],
+                                        label='Mode ' + str(modes[i]))
 
                 plt.legend(loc='best')
                 plt.tight_layout()
@@ -1027,15 +870,12 @@ class model:
                 plt.scatter(Re[0, 0, 0, 0], Im[0, 0, 0, 0], marker='o', color='black', label="Start")
                 plt.scatter(Re[0, 0, 0, -1], Im[0, 0, 0, -1], marker='X', color='black', label="End")
                 for i in range(min(len(modes),5)):
-                    if True:
-                        if True:
-                            for j in range(len(machs)):
-                                for k in range(len(densities)):
-                                    plt.scatter(Re[i,j,k,0],Im[i,j,k,0],marker = 'o',color='black')
-                                    plt.scatter(Re[i, j, k, -1], Im[i, j, k, -1], marker = 'X',color='black')
-                                    plt.plot(Re[i,j,k,:],Im[i,j,k,:],
-                                             label='Mode ' + str(modes[i]))# + ', mach = ' + str(machs[j]) + \
-                                                   #', density = ' + str(densities[k]*self.rho_flow)+r'$kg/mm^3$')
+                    for j in range(len(machs)):
+                        for k in range(len(densities)):
+                            plt.scatter(Re[i,j,k,0],Im[i,j,k,0],marker = 'o',color='black')
+                            plt.scatter(Re[i, j, k, -1], Im[i, j, k, -1], marker = 'X',color='black')
+                            plt.plot(Re[i,j,k,:],Im[i,j,k,:],
+                                        label='Mode ' + str(modes[i]))
                 plt.legend(loc='best')
                 plt.tight_layout()
                 plt.savefig('Argand.png')
@@ -1048,16 +888,9 @@ class model:
         #Defining the analyses required for the hydroelastic analysis
 
         if self.analysis_type == "hydroelastic":
-            # self.modes = model(self.filename,self.profile,'modes')
             self.coupled = model(self.filename, self.profile, 'coupled_acoustics')
             self.aero = model(self.filename, self.profile, 'aeroelastic')
             self.modes = model(self.filename, self.profile, 'modes')
-        elif self.analysis_type == "simulated_modes":
-            #self.modes = model(self.filename,self.profile,'modes')
-            self.coupled = model(self.filename,self.profile,'coupled_acoustics')
-            self.aero = model(self.filename, self.profile, 'modes')
-            self.modes = model(self.filename, self.profile, 'modes')
-            self.analysis_type = "hydroelastic"
 
         print("Setup the coupled acoustics analysis")
         self.coupled.setup(geometry_object=self.geom,
@@ -1120,7 +953,7 @@ class fluid:
 
 class flow:
     #Defining the flow for flutter analysis
-    def __init__(self, ref_velocity, ref_length, rho_flow, velocities, density_ratios, machs, mach_matrix, freq_matrix, results_file, velocity = None):
+    def __init__(self, ref_velocity, ref_length, rho_flow, velocities, density_ratios, machs, mach_matrix, freq_matrix, velocity = None):
         self.ref_velocity = ref_velocity
         self.ref_length = ref_length
         self.rho_flow = rho_flow
@@ -1129,7 +962,6 @@ class flow:
         self.machs = machs
         self.mach_matrix = mach_matrix
         self.freq_matrix = freq_matrix
-        self.results_filename = results_file
         self.velocity = velocity
 
 def is_float(string):
@@ -1139,59 +971,9 @@ def is_float(string):
         return True
     except ValueError:
         return False
-    
-def show_deformation(freq, nodes, mode, scale, coupling):
-    #Showing the wing structural nodes after applied scale deformation
-    #If coupling, specify it
-    if coupling == False:
-        plt.figure('Mode '+str(mode)+' at scale = '+str(scale*100)+'% for fn = '+str(round(freq,2))+'Hz')
-    else:
-        plt.figure('Mode '+str(mode)+' at scale = '+str(scale*100)+'% for fn = '+str(round(freq,2))+'Hz under resting fluid-structure coupling')
-    ax = plt.axes(projection='3d')
-    ax.scatter3D(nodes[:,0],nodes[:,1],nodes[:,2])
-    equal_axes(ax)
-    ax.set_xlabel('chord')
-    ax.set_ylabel('span')
-    ax.set_zlabel('z')
-    if coupling == False:
-        ax.set_title(r'Mode ' + str(mode) + ' at scale = ' + str(scale * 100) + '%, $f_n = $' + str(
-            round(freq, 2)) + 'Hz')
-    else:
-        ax.set_title(r'Mode '+str(mode)+' at scale = '+str(scale*100)+'%, $f_n = $'+str(round(freq,2))+'Hz under resting fluid-structure coupling')
-    if coupling == False:
-        plt.savefig('Mode '+str(mode)+' in vacuum.pdf')
-    else:
-        plt.savefig('Mode '+str(mode)+' in resting fluid.pdf')
-
-def eigenvals(params, wd, zetawn):
-    wn = params[0]
-    zeta = params[1]
-    alpha = zeta*wn
-    beta = wn*np.sqrt(1-zeta**2)
-    return alpha-zetawn, beta-wd
 
 import pandas as pd
 import math as mt
-# def exp_data(filename):
-#     if filename != None:
-#         #From an excel file, plot the damping according to reduced velocity
-#         data = pd.read_csv(filename, sep=';').to_numpy()
-#         test_data = np.zeros([int(len(data[0,:])/2), 2, len(data[:,0])])
-#         markers = ["1", "x","s", "D", "^", "v", "*", "+", "o"]
-#         labels = ["M1", "M2", "M3", "M4", "H0", "H1", "H3", "F0", "F1"]
-#         for i in range(len(data[0,:])):
-#             mode = (i)//2
-#             value = i%2
-#             for j in range(len(data[:,i])):
-#                 if not mt.isnan(data[j,i]):
-#                     test_data[mode, value, j] = data[j,i]
-#         #plt.figure('Damping')
-#         plt.subplot(1,2,2)
-#         plt.xlim([min(test_data[:,0,:].flatten()),max(test_data[:,0,:].flatten())])
-#         plt.ylim([min(test_data[:, 1, :].flatten()), max(test_data[:, 1, :].flatten())])
-#         for i in range(len(test_data[:,0,0])):
-#             if i!=6:
-#                 plt.scatter(test_data[i,0,:], test_data[i,1,:]-test_data[i,1,0], marker=markers[i], c = "black", label = labels[i])
 
 def exp_data(filename):
     if filename != None:

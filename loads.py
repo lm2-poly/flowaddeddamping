@@ -16,67 +16,23 @@ def SPC(file, nodelist, profile_nodes_len):
         file.write('SPC1, 100, 123456, '+str(i+1)+'\n')
         file.write('SPC1, 100, 123456, ' + str(len(nodelist) - i) + '\n')
 
-def SPCF(file, nodelist_object):
-    #See documentation for SPC1
-    file.write("$* Pressure constraints\n")
-    ngrid = len(nodelist_object.nodelist)
-    corresp_nodes = []
-    k = 0
-    for i in range(len(nodelist_object.fluidmesh)):
-        x = nodelist_object.fluidmesh[i, 0]
-        y = nodelist_object.fluidmesh[i, 1]
-        z = nodelist_object.fluidmesh[i, 2]
-        if y == 0 or y == max(nodelist_object.fluidmesh[:,1]) or\
-                z == min(nodelist_object.fluidmesh[:,2]) or z == max(nodelist_object.fluidmesh[:,2]):
-            file.write('SPC1, 100, 0, '+str(i + 1 + ngrid)+'\n')
-    file.write('$*\n')
-    return corresp_nodes
-
 def ACMODL(file):
     #See documentation for ACMODL
     file.write("$*\n")
     file.write('ACMODL, , , , , 1.0, , , REL,\n')
     file.write(", 0.5, 0, , , STRONG\n")
 
-def AML(file, nodelist): #Currently useless but can be useful for direct response analysis
-    #See documentation for the automatically matched layer in the acoustics documentation
-    #Applies as a farfield condition
-    file.write("$*\n")
-    file.write("AMLREG, 1, 1, AML REGION 1,\n")
-    file.write(", 5, AML, 0, 0, 0\n")
-
-
-    file.write('BSURFS, 1, , , , ')
-
 def GRAV(file):
     #See documentation for GRAV
     #Used for debugging the structural part of this program
     file.write('GRAV, 100, , 9810.00, 0.0000, 0.0000, -1.0000\n')
 
-def DOWNWASH(file, flow_angle, nodes_object): #To complete
-    #TO CONTINUE ONCE NEEDED when the straight wing supposition is reversed
-    #DMI CARDs
-    flow_angle = flow_angle*np.pi/180
-    #Kutta's condition states that the flow leaving a panel is parallel to its trailing edge
-    alpha = flow_angle
-    it = np.zeros(len(nodes_object.aero_simplices))
-    downwash = np.zeros(len(nodes_object.aero_simplices))
-    w = np.zeros(len(nodes_object.aero_simplices))
-    for i in range(len(nodes_object.aero_simplices)):
-        node1 = nodes_object.aero_simplices[i,0]
-        node2 = nodes_object.aero_simplces[i,1]
-
-    file.write('DMI, W2GJ, 0, 2, 1, 0, '+str(len(nodes_object.aero_simplices))+', 1\n')
-    for i in range(len(nodes_object.aero_simplices)):
-        file.write('DMI, W2GJ, 1, '+str(i)+', '+str(w[i])+'\n')
-
 def AERO(file, nodes_object, velocity = 100, ref_length = 1, rhoref = 1.225):
     #See documentation for AERO
-    file.write('AERO, , , '+str(ref_length/2)+', '+str(rhoref)+',\n$*\n')
+    file.write('AERO, , , '+str(ref_length)+', '+str(rhoref)+',\n$*\n')
 
 def MKAERO(file, SID, mach_matrix, freq_matrix, velocities, densities, machs, velocity = None):
     #See documentation for MKAERO1, FLFACT, FLUTTER
-    #This is not the most optimal way of writing it in terms of space but it works
     #For each mach number, write every reduced frequency
     file.write('$*')
     for i in range(len(mach_matrix)):

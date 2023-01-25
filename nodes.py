@@ -6,7 +6,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from gmeshing import *
-from numba import njit
 
 
 class nodes:
@@ -73,35 +72,6 @@ class nodes:
 
         self.envelope_mesh, self.envelope_simplices = envelope_gmeshing(envelope_coords, profile_coords,
                                                                       mesh_size = mesh_size_normalized, n = n, show = show)
-
-    def show_profile(self): #Obsolete
-        #Showing the profile points and the camber line, used for debugging
-        plt.figure('Profile')
-        plt.scatter(self.profile_coords[:, 0], self.profile_coords[:, 1])
-        x = np.linspace(0,1,50)
-        y = np.polyval(self.camberline_coeffs, x)
-        plt.plot(x,y)
-        plt.xlabel('x')
-        plt.ylabel('z')
-        plt.title('Profile of the structure')
-        plt.grid(True)
-        plt.xlim(min(self.profile_coords[:,0])-0.1,max(self.profile_coords[:,0])+0.1)
-        plt.ylim(min(self.profile_coords[:, 1])-0.1, max(self.profile_coords[:, 1])+0.1)
-        plt.gca().set_aspect('equal', adjustable='box')
-
-    def show_profile_mesh(self): #Obsolete
-        #Showing the profile mesh with the triangular elements, used for debugging
-        plt.figure('Profile Mesh')
-        plt.scatter(self.mesh_profile[:, 0], self.mesh_profile[:, 1])
-        plt.scatter(self.profile_coords[:,0], self.profile_coords[:,1],color='red')
-        plt.triplot(self.mesh_profile[:, 0], self.mesh_profile[:, 1], self.profile_simplices, linewidth = 2)
-        plt.xlabel('x')
-        plt.ylabel('z')
-        plt.title('Mesh of the profile of the structure')
-        plt.grid(True)
-        plt.xlim(min(self.mesh_profile[:,0])-0.1,max(self.mesh_profile[:,0])+0.1)
-        plt.ylim(min(self.mesh_profile[:, 1])-0.1, max(self.mesh_profile[:, 1])+0.1)
-        plt.gca().set_aspect('equal', adjustable='box')
 
     def wing_def(self, rootchord, tipchord, span, roottwist = 0, tiptwist = 0, sweep = 0, dihedral = 0,
                  nspan = 100, nx = 8, ny = 24, x0 = 0, n = 1, spacing = 0.5):
@@ -284,54 +254,6 @@ class nodes:
             self.fluidmesh = np.delete(self.fluidmesh, 0, 0)
         self.fluidmesh, self.fluid_simplices = is_on_3Delement(nodelisting=self.fluidmesh, simplices=self.fluid_simplices, non_write = self.fluid_non_write)
 
-    def show_aero(self): #Used for debugging, mostly obsolete
-        #Showing the aero panels nodes
-        plt.figure('Aero mesh')
-        ax = plt.axes(projection='3d')
-        ax.scatter3D(self.aeronodes[:,0],self.aeronodes[:,1],self.aeronodes[:,2])
-        equal_axes(ax)
-        ax.set_xlabel('chord')
-        ax.set_ylabel('span')
-        ax.set_zlabel('z')
-        ax.set_title('Aero mesh')
-        plt.show()
-
-    def show_wing(self): #Used for debugging, now obsolete
-        #Showing the wing structural nodes (gives an idea of the shape of the wing
-        plt.figure('Wing structure')
-        ax = plt.axes(projection='3d')
-        ax.scatter3D(self.nodelist[:,0],self.nodelist[:,1],self.nodelist[:,2])
-        equal_axes(ax)
-        ax.set_xlabel('chord')
-        ax.set_ylabel('span')
-        ax.set_zlabel('z')
-        ax.set_title('Wing structure')
-
-    def show_mesh(self): #Obsolete, does not work anymore
-        plt.figure("Mesh")
-        ax=plt.axes(projection='3d')
-        ax.plot3D(self.nodelist[:,0], self.nodelist[:,1], self.nodelist[:,2], 'o')
-        for i in range(len(self.simplices)):
-            j=np.linspace(0,len(self.simplices[i])-1,len(self.simplices[i]))
-            j=np.append(j,0).astype(int)
-            for k in range(len(j)-1):
-                x2=self.nodelist[self.simplices[i][j[k+1]],0]
-                x1=self.nodelist[self.simplices[i][j[k]],0]
-                y2=self.nodelist[self.simplices[i][j[k+1]],1]
-                y1=self.nodelist[self.simplices[i][j[k]],1]
-                z2=self.nodelist[self.simplices[i][j[k+1]],2]
-                z1=self.nodelist[self.simplices[i][j[k]],2]
-                x=np.array([x1,x2])
-                y=np.array([y1,y2])
-                z=np.array([z1,z2])
-                ax.plot3D(x, y, z, 'gray')
-        equal_axes(ax)
-        ax.set_xlabel('chord')
-        ax.set_ylabel('span')
-        ax.set_zlabel('z')
-        ax.set_title('Mesh')
-        plt.show()
-
     def GRIDWrite(self, file, used_nodes):
         #Writing the GRID cards
         file.write('$* GRID CARDS\n')
@@ -348,7 +270,7 @@ class nodes:
         file.write('$*\n')
         return corresp_nodes
 
-    def GRIDWriteFluid(self, file, addedmass = False):
+    def GRIDWriteFluid(self, file):
         # Writing the GRID cards for fluid nodes
         file.write('$* GRID CARDS\n')
         file.write('$*\n')
@@ -365,71 +287,6 @@ class nodes:
         file.write('$*\n')
         return corresp_nodes
 
-    def simulateWrite(self, file, fluidmesh):
-        # Writing the GRID cards for fluid nodes
-        file.write('$* FLUID SIMULATING GRID CARDS\n')
-        file.write('$*\n')
-        ngrid = len(self.nodelist)
-        corresp_nodes = []
-        for i in range(len(fluidmesh)):
-            x = fluidmesh[i, 0]
-            y = fluidmesh[i, 1]
-            z = fluidmesh[i, 2]
-            corresp_nodes.append(i)
-            # GRID, NID, , X, Y, Z
-            file.write('GRID, ' + str(i + 1 + ngrid) + ', , ' + str(round(x, 4)) + ', ' + str(round(y, 4)) + ', ' + str(
-                round(z, 4)) + ', ,23456\n')
-        file.write('$*\n')
-
-    def simulateWrite2(self, file, fluidmesh, j = 1):
-        # Writing the GRID cards for fluid nodes
-        file.write('$* FLUID SIMULATING GRID CARDS\n')
-        file.write('$*\n')
-        ngrid = len(self.nodelist)
-        corresp_nodes = []
-        for i in range(len(fluidmesh)):
-            nsimul = len(fluidmesh)
-            x = fluidmesh[i, 0]
-            y = fluidmesh[i, 1]
-            z = fluidmesh[i, 2]
-            corresp_nodes.append(i)
-            file.write('GRID, ' + str(i + 1 + ngrid+nsimul) + ', , ' + str(round(x, 4)) + ', ' + str(round(y, 4)) + ', ' + str(
-                round(z, 4)) + ', ,23456\n')
-        file.write('$*\n')
-
-    def simulateWriteSolidFluid(self, file, nodelist, fluidmesh):
-        # Writing the GRID cards for fluid nodes
-        file.write('$* FLUID SIMULATING GRID CARDS\n')
-        file.write('$*\n')
-        ngrid = len(self.nodelist)
-        nsimul = len(fluidmesh)
-        corresp_nodes = []
-        for i in range(len(fluidmesh)):
-            x = fluidmesh[i, 0]
-            y = fluidmesh[i, 1]
-            z = fluidmesh[i, 2]
-            corresp_nodes.append(i)
-            file.write('GRID, ' + str(i + 1 + ngrid) + ', , ' + str(round(x, 4)) + ', ' + str(
-                round(y, 4)) + ', ' + str(
-                round(z, 4)) + ', ,23456\n')
-        for i in range(len(self.nodelist)):
-            x = self.nodelist[i, 0]
-            y = self.nodelist[i, 1]
-            z = self.nodelist[i, 2]
-            # GRID, NID, , X, Y, Z
-            corresp_nodes.append(i)
-            file.write('GRID, ' + str(i + ngrid + 1 + nsimul) + ', , ' + str(round(x, 4)) + ', ' + str(round(y, 4)) + ', ' + str(
-                round(z, 4)) + ', , 456 \n')
-        for i in range(len(fluidmesh)):
-            x = fluidmesh[i, 0]
-            y = fluidmesh[i, 1]
-            z = fluidmesh[i, 2]
-            corresp_nodes.append(i)
-            file.write('GRID, ' + str(i + 1 + ngrid*2 + nsimul) + ', , ' + str(round(x, 4)) + ', ' + str(
-                round(y, 4)) + ', ' + str(
-                round(z, 4)) + ', ,23456\n')
-        file.write('$*\n')
-
     def corresponding(self, used_nodes):
         #Similarly to what is done in the GRIDWrite functions, selecting how the written nodes correspond to existing nodes
         sol_corresp_nodes = []
@@ -442,65 +299,13 @@ class nodes:
                 flu_corresp_nodes.append(i)
         return sol_corresp_nodes, flu_corresp_nodes
 
-def equal_axes(plot):
-    #Doing what matlab does when calling "axis(equal)"
-
-    #Getting the plot's limits
-    x_limits = plot.get_xlim3d()
-    y_limits = plot.get_ylim3d()
-    z_limits = plot.get_zlim3d()
-
-    #Calculating the ranges and mean values for each axis
-    x_range = abs(x_limits[1] - x_limits[0])
-    x_mean = (x_limits[1]+x_limits[0])/2
-    y_range = abs(y_limits[1] - y_limits[0])
-    y_mean = (y_limits[1]+y_limits[0])/2
-    z_range = abs(z_limits[1] - z_limits[0])
-    z_mean = (z_limits[1]+z_limits[0])/2
-
-    #Calculating half of the maximum range
-    max_half = 0.5 * max(x_range, y_range, z_range)
-
-    #The ranges, to be equal, need to be all the same length, centered to their respective means
-    plot.set_xlim3d([x_mean - max_half, x_mean + max_half])
-    plot.set_ylim3d([y_mean - max_half, y_mean + max_half])
-    plot.set_zlim3d([z_mean - max_half, z_mean + max_half])
-
-def is_on_segment(p,q,r): #Obsolete
-    # Does a line going right from the point p go through the segment joining points q and r?
-    #Points are defined as [x coordinate, y coordinate]
-    if q[0] != r[0]:
-        m = (q[1] - r[1])/(q[0] - r[0])
-        b = q[1] - m*q[0]
-        yfit = m*p[0] + b
-        if m>=0 and p[0]<=max(q[0],r[0]):
-            if p[0]>=min(q[0],r[0]) and p[1]>=yfit and p[1]<=max(q[1],r[1]):
-                return True
-            elif p[0]<min(q[0],r[0]) and p[1]>=min(q[1],r[1]) and p[1]<=max(q[1],r[1]):
-                return True
-            else:
-                return False
-
-        if m<0 and p[0]<=max(q[0],r[0]):
-            if p[0]>=min(q[0],r[0]) and p[1]<=yfit and p[1]>=min(q[1],r[1]):
-                return True
-            elif p[0]<min(q[0],r[0]) and p[1]>=min(q[1],r[1]) and p[1]<=max(q[1],r[1]):
-                return True
-            else:
-                return False
-    else:
-        if p[0] <= q[0] and p[1]<=max(q[1],r[1]) and p[1]>=min(q[1],r[1]):
-            return True
-        else:
-            return False
-
-def running_mean(x, y, deg = 3): #Used for camber lines, currently obsolete
+def running_mean(x, y, deg = 3): #Used for camber lines, currently can only be flat points
     #Running mean of xy points
     length = len(x)
     #Sorting the points according to the x coordinates
-    x, y = zip(*sorted(zip(x,y)))
-    x = np.array(x)
-    y = np.array(y)
+    indices = np.argsort(x)
+    x = np.array(x[indices])
+    y = np.array(y[indices])
     #Number of elements not present at the beginning and end of the array
     absent_length = (deg-1)/2
     #Mean of the points
@@ -508,11 +313,8 @@ def running_mean(x, y, deg = 3): #Used for camber lines, currently obsolete
     ynew = np.zeros(length - deg + 1)
     for i in range(len(xnew)):
         true_i = int(absent_length + i)
-        for j in range(deg):
-            xnew[i] += x[int(true_i-absent_length+j)]
-            ynew[i] += y[int(true_i-absent_length+j)]
-        xnew[i] = xnew[i]/deg
-        ynew[i] = ynew[i]/deg
+        xnew[i] = np.mean(x[int(true_i-absent_length): int(true_i+absent_length)])
+        ynew[i] = np.mean(y[int(true_i-absent_length): int(true_i+absent_length)])
     return xnew, ynew
 
 def is_on_3Delement(nodelisting, simplices, non_write):
