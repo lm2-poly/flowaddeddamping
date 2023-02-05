@@ -16,8 +16,8 @@ if __name__ == '__main__':
 
     #File names
     #Put the file names used for the analysis files (no extensions) and the profile (with extension)
-    filename = r'TestFiles\FunctionTest\FunctionTest'
-    profile = r'TestFiles\Cupr\NACA0003.dat'
+    filename = r'TestFiles\Francis99\F0'
+    profile = r'TestFiles\Francis99\F0.dat'
 
     # Available analysis types
     # static: Gravity load (mainly debugging oriented)
@@ -26,11 +26,11 @@ if __name__ == '__main__':
     # coupled_acoustics: Modal analysis in resting fluid (complex eigenvalues, no damping, added mass)
     # aeroelastic: Modal analysis in fluid (with damping, no added mass or rigidity)
     # hydroelastic: Modal analysis in fluid (with added mass, damping and rigidity) (In progress)
-    analysis_type = "hydroelastic"
+    analysis_type = "aeroelastic"
 
     #Dimensions: mm
-    rootchord = 95.0
-    tipchord = 95.0
+    rootchord = 250.0
+    tipchord = 250.0
     span = 150.0
     roottwist = 0.0
     tiptwist = 0.0
@@ -46,7 +46,7 @@ if __name__ == '__main__':
     envelope_thickness = 100/rootchord
 
     #Mesh parameters
-    mesh_size_solid = 4/rootchord #Mesh size for the profile, normalized by the chord
+    mesh_size_solid = 10/rootchord #Mesh size for the profile, normalized by the chord
     mesh_size_fluid = 10/rootchord
     SpanDensity = 31 #Number of solid elements spanwise, must be odd
     nchord = 16 #Number of panels chordwise
@@ -54,14 +54,14 @@ if __name__ == '__main__':
 
     #Material properties: N
     #Aluminum
-    #E = 68.890E6 #Young's modulus in kPa (mN/mm^2)
-    #nu = 0.33 #Poisson's ratio
-    #rho_solid = 2711.0E-9 #Solid density in kg/mm^3
+    E = 68.890E6 #Young's modulus in kPa (mN/mm^2)
+    nu = 0.33 #Poisson's ratio
+    rho_solid = 2711.0E-9 #Solid density in kg/mm^3
 
     #Bronze
-    E = 115.0E6
-    nu = 0.33
-    rho_solid = 7800.0E-9
+    #E = 115.0E6
+    #nu = 0.33
+    #rho_solid = 7800.0E-9
 
     #Fluid properties and characteristics
     #Water
