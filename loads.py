@@ -14,7 +14,7 @@ def SPC(file, nodelist, profile_nodes_len):
     fixed_nodes = []
     for i in range(profile_nodes_len):
         file.write('SPC1, 100, 123456, '+str(i+1)+'\n')
-        file.write('SPC1, 100, 123456, ' + str(len(nodelist) - i) + '\n')
+        #file.write('SPC1, 100, 123456, ' + str(len(nodelist) - i) + '\n') # comment this line if you want the hydrofoil to be free at one side
 
 def ACMODL(file):
     #See documentation for ACMODL

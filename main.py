@@ -16,8 +16,8 @@ if __name__ == '__main__':
 
     #File names
     #Put the file names used for the analysis files (no extensions) and the profile (with extension)
-    filename = r'TestFiles\Francis99\F0'
-    profile = r'TestFiles\Francis99\F0.dat'
+    filename = r'TestFiles\Blunt\Blunt_testgithub'
+    profile = r'TestFiles\Blunt\blunt.dat'
 
     # Available analysis types
     # static: Gravity load (mainly debugging oriented)
@@ -26,11 +26,11 @@ if __name__ == '__main__':
     # coupled_acoustics: Modal analysis in resting fluid (complex eigenvalues, no damping, added mass)
     # aeroelastic: Modal analysis in fluid (with damping, no added mass or rigidity)
     # hydroelastic: Modal analysis in fluid (with added mass, damping and rigidity) (In progress)
-    analysis_type = "aeroelastic"
+    analysis_type = "coupled_acoustics"
 
     #Dimensions: mm
-    rootchord = 250.0
-    tipchord = 250.0
+    rootchord = 100.0
+    tipchord = 100.0
     span = 150.0
     roottwist = 0.0
     tiptwist = 0.0
@@ -42,13 +42,13 @@ if __name__ == '__main__':
     spacing = 39/250
 
     #Normalized by the chord
-    envelope_chord = 6
-    envelope_thickness = 100/rootchord
+    envelope_chord = 7.5
+    envelope_thickness = 150/rootchord
 
     #Mesh parameters
-    mesh_size_solid = 10/rootchord #Mesh size for the profile, normalized by the chord
-    mesh_size_fluid = 10/rootchord
-    SpanDensity = 31 #Number of solid elements spanwise, must be odd
+    mesh_size_solid = 3/rootchord #Mesh size for the profile, normalized by the chord
+    mesh_size_fluid = 3/rootchord
+    SpanDensity = 41 #Number of solid elements spanwise, must be odd
     nchord = 16 #Number of panels chordwise
     nspan = 16 #Number of panels spanwise
 

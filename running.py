@@ -23,7 +23,7 @@ def naming(filename, analysis_type = None, create_folder = False):
 
         for i in range(len(filename)):
             j = -1-i
-            if filename[j] == "\\":
+            if filename[j] == "\\" or filename[j] == "/":
                 path = filename[:j]
                 folder_name = filename[j:]
                 break
