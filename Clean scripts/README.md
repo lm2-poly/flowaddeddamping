@@ -14,6 +14,7 @@ Once the requirements installed, the main.py script should be functional using t
 
 ## Usage
 The main.py file is the main script to use this program. The necessary instructions are available in the main.py file to explain the use of the script. 
+### Important: If NASTRAN's location is not recognized, add "nastran_location = ..." with your nastranw.exe location in the run method of the model class. (line 169 in the original main.py script)
 
 Currently, only standalone straight hydrofoils are supported, but add-ons will be made to consider cascades, camber and non-straight hydrofoils. The hydrofoils can be simulated for static analysis under a gravity load (mainly for debugging), vacuum modal analysis, uncoupled vibro-acoustic analysis (mainly for debugging), coupled vibro-acoustic analysis, aeroelastic analysis and hydroelastic analysis.
 

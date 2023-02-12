@@ -166,7 +166,7 @@ if __name__ == '__main__':
     wing.write()
 
     # Run the .bdf file using NASTRAN
-    wing.run(nmodes = nmodes)
+    wing.run(nmodes = nmodes) #If NASTRAN's location is not recognized, add your location to this line by adding the input "nastran_location = ..."
 
     end_time = time.time()
 
