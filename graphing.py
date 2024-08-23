@@ -14,7 +14,7 @@ nmodes = 3
 lines = ['-','--','-.','-.',':']
 widths = [1.0, 1.0, 1.0,1.0,1.0]
 
-#Structure typique d'une ligne: [U, UR, omega, zeta, Re(lambda), Im(lambda)]
+#Typical structure of a line: [U, UR, omega, zeta, Re(lambda), Im(lambda)]
 
 
 NACA_exp = r'TestFiles\Results\NACA0003_exp.csv'
@@ -82,6 +82,8 @@ dona_simu = pd.read_csv(dona_simu, sep=';', header = None).to_numpy()
 dona_simu[:,1] = dona_simu[:,1]*100/10
 dona_shifted = dona_simu.copy()
 dona_shifted[:,3] -= dona_shifted[1,3]*np.ones(len(dona_shifted[:,3]))
+
+
 #Plots
 
 #Part 1: Multiple modes

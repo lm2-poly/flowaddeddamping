@@ -1,13 +1,13 @@
 #Plotting a hydrofoil's profile from its geometry points
 #Author: Danick Lamoureux
-#LM2 project under Frédérick Gosselin's supervision
+#Project under Frédérick Gosselin and Sébastien Houde's supervision
 #Date: 2022-10-14
 
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.interpolate import CubicSpline
 
-profile_filename = r'TestFiles\Francis99\F0.dat'
+profile_filename = r'TestFiles\F0\F0.dat'
 
 profile = open(profile_filename, 'r')
 raw_coords = profile.readlines()
@@ -34,7 +34,6 @@ plt.figure('Profile')
 plt.plot(profile_coords[[-1,0],0], profile_coords[[-1,0],1], color='black')
 plt.plot(profile_coords[:,0], profile_coords[:,1], color='black')
 plt.plot([profile_coords[-1,0], profile_coords[0,0]], [profile_coords[-1,1], profile_coords[0,1]], c='k')
-#plt.plot(cs(theta_s)[:,0], cs(theta_s)[:,1], color='black')
 plt.xlim(min(profile_coords[:,0])-0.1,max(profile_coords[:,0])+0.1)
 plt.ylim(min(profile_coords[:, 1])-0.1, max(profile_coords[:, 1])+0.1)
 plt.gca().set_aspect('equal', adjustable='box')

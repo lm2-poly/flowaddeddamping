@@ -1,38 +1,64 @@
 #Defining the constraints and loads in the BDF file
 #Author: Danick Lamoureux
-#LM2 project under Frédérick Gosselin's supervision
+#Project under Frédérick Gosselin and Sébastien Houde's supervision
 #Date: 2022-05-05
-
-#It is assumed that the nodes at the root and tip are fixed, and that's it
 
 import numpy as np
 
 def SPC(file, nodelist, profile_nodes_len):
-    #See documentation for SPC1
+    """See documentation for SPC1. To be modified to have one free end
+
+    Args:
+        file: File object obtained with file = open(string, 'w')
+        nodelist (list): List of nodes
+        profile_nodes_len (int): Number of nodes for the profile of the hydrofoils
+    """
     file.write('$* Constraints and loads\n')
     file.write('$* SPCs\n$*\n')
-    fixed_nodes = []
     for i in range(profile_nodes_len):
         file.write('SPC1, 100, 123456, '+str(i+1)+'\n')
-        #file.write('SPC1, 100, 123456, ' + str(len(nodelist) - i) + '\n') # comment this line if you want the hydrofoil to be free at one side
+        file.write('SPC1, 100, 123456, ' + str(len(nodelist) - i) + '\n') # comment this line if you want the hydrofoil to be free at one side
 
 def ACMODL(file):
-    #See documentation for ACMODL
+    """See documentation for ACMODL
+
+    Args:
+        file: File object obtained with file = open(string, 'w')
+    """
     file.write("$*\n")
     file.write('ACMODL, , , , , 1.0, , , REL,\n')
     file.write(", 0.5, 0, , , STRONG\n")
 
 def GRAV(file):
-    #See documentation for GRAV
-    #Used for debugging the structural part of this program
+    """See documentation for GRAV. Used for debugging the structural part of this program
+
+    Args:
+        file: File object obtained with file = open(string, 'w')
+    """
     file.write('GRAV, 100, , 9810.00, 0.0000, 0.0000, -1.0000\n')
 
-def AERO(file, nodes_object, velocity = 100, ref_length = 1, rhoref = 1.225):
-    #See documentation for AERO
+def AERO(file, ref_length = 1, rhoref = 1.225):
+    """See documentation for AERO
+
+    Args:
+        file: File object obtained with file = open(string, 'w')
+        ref_length (float, optional): Reference length of the hydrofoil. Defaults to 1.
+        rhoref (float, optional): Reference density. Defaults to 1.225.
+    """
     file.write('AERO, , , '+str(ref_length)+', '+str(rhoref)+',\n$*\n')
 
-def MKAERO(file, SID, mach_matrix, freq_matrix, velocities, densities, machs, velocity = None):
-    #See documentation for MKAERO1, FLFACT, FLUTTER
+def MKAERO(file, SID, mach_matrix, freq_matrix, velocities, densities, machs):
+    """See documentation for MKAERO1, FLFACT, FLUTTER
+
+    Args:
+        file: File object obtained with file = open(string, 'w')
+        SID: Identifier
+        mach_matrix: Mach matrix for interpolation
+        freq_matrix: Reduced frequency matrix for interpolation
+        velocities: Velocities to test
+        densities: Densities to test
+        machs: Machs to test
+    """
     #For each mach number, write every reduced frequency
     file.write('$*')
     for i in range(len(mach_matrix)):
@@ -59,9 +85,6 @@ def MKAERO(file, SID, mach_matrix, freq_matrix, velocities, densities, machs, ve
 
     #If a velocity is negative, it is studied in depth
     #Therefore, if there is a negative velocity to check, add it to the test list
-    if velocity != None:
-        kfreq = np.append(velocities,abs(velocity))
-        kfreq = np.unique(velocities)
     file.write('$ Velocities\n')
     file.write('FLFACT, 30')
     skip = 0
@@ -72,10 +95,7 @@ def MKAERO(file, SID, mach_matrix, freq_matrix, velocities, densities, machs, ve
         elif i - skip == 8 and i > 8:
             file.write(", \n")
             skip = i
-        if velocities[i] == velocity:
-            file.write(', ' + str(format(-velocities[i], '.2E')))
-        else:
-            file.write(', ' + str(format(velocities[i], '.2E')))
+        file.write(', ' + str(format(velocities[i], '.2E')))
 
     file.write('\n')
 

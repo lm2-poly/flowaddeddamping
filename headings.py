@@ -1,12 +1,18 @@
 #Generating the headers for a BDF file
 #Author: Danick Lamoureux
-#LM2 project under Frédérick Gosselin's supervision
+#Project under Frédérick Gosselin and Sébastien Houde's supervision
 #Date: 2022-05-05
 
 #All headers are modified from Simcenter's original headers
 
 def headers_hydro(file, P1, nmodes = 10):
-    #Headers to use for full hydroelastic analysis. Requires modal and coupled acoustics analysis first
+    """Headers to use for full hydroelastic analysis. Requires modal and coupled acoustics analysis first
+
+    Args:
+        file: File object obtained with file = open(string, 'w')
+        P1: AVMI Matrix
+        nmodes (int, optional): Number of modes used in the vibro-acoustics to aeroelastic transfer. Defaults to 10.
+    """    
 
 
     file.write(r"""$*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -91,7 +97,11 @@ $PARAM, EXTOUT, DMIGPCH
 $*"""+'\n')
 
 def headers_aero(file):
-    #Headers to use for flutter analysis
+    """Headers to use for flutter analysis
+
+    Args:
+        file: File object obtained with file = open(string, 'w')
+    """    
     file.write(r"""$*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 $*
 $*                    Aeroelasticity analysis of a hydrofoil
@@ -143,7 +153,11 @@ PARAM    UNITSYS   MN-MM
 $*"""+'\n')
 
 def headers_acoustics_real(file):
-    #Headers to use for uncoupled acoustics analysis (obsolete)
+    """Headers to use for uncoupled acoustics analysis (obsolete)
+
+    Args:
+        file: File object obtained with file = open(string, 'w')
+    """    
     file.write(r"""$*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 $*
 $*                    Acoustics analysis of a hydrofoil (uncoupled)
@@ -215,7 +229,11 @@ PARAM    UNITSYS   MN-MM
 $*"""+'\n')
 
 def headers_acoustics_complex(file):
-    #Headers to use for coupled acoustics analysis
+    """Headers to use for coupled acoustics analysis
+
+    Args:
+        file: File object obtained with file = open(string, 'w')
+    """    
     file.write(r"""$*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 $*
 $*                    Acoustics analysis of a hydrofoil (coupled)
@@ -291,7 +309,11 @@ PARAM    UNITSYS   MN-MM
 $*"""+'\n')
 
 def headers_modes(file):
-    #Used for modal analysis
+    """Headers to use for vacuum modal analysis
+
+    Args:
+        file: File object obtained with file = open(string, 'w')
+    """    
     file.write(r"""
     $*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 $*
@@ -350,7 +372,11 @@ PARAM    UNITSYS   MN-MM
 $*"""+"\n")
 
 def headers_bending(file):
-    #Used for debugging the structural part of this program
+    """Used for debugging the structural part of this program
+
+    Args:
+        file: File object obtained with file = open(string, 'w')
+    """    
     file.write(r"""
     $*$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 $*
@@ -394,7 +420,11 @@ PARAM    UNITSYS   MN-MM
 $*"""+"\n")
 
 def footers(file):
-    #Finishing the bdf file and closing the file
+    """Finishing the bdf file and closing the file
+
+    Args:
+        file: File object obtained with file = open(string, 'w')
+    """
     file.write('$*\n')
     file.write('$*\nENDDATA')
     file.close()

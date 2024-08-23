@@ -1,6 +1,6 @@
 #Using gmsh to define the points on the profile
-#Author: Danick Lamoureux, based on Olivier Duchesne and David Lessard's code
-#LM2 project under Frédérick Gosselin's supervision
+#Author: Danick Lamoureux and Clément Audefroy, based on Olivier Duchesne and David Lessard's codes
+#Project under Frédérick Gosselin and Sébastien Houde's supervision
 #Date: 2022-05-04
 
 import gmsh
@@ -8,19 +8,28 @@ import numpy as np
 import os
 
 def airfoil_gmeshing(polygon_vertices, mesh_size, n=1, show = False):
+    """Meshing the airfoil using GMSH
+
+    Args:
+        polygon_vertices (list): Vertices of the airfoil
+        mesh_size (float): Mesh size.
+        n (int, optional): Number of hydrofoils in cascade. Defaults to 1.
+        show (bool, optional): Bool to define if GMSH software is used to show the mesh. Defaults to False.
+
+    Returns:
+        list, list: List of nodes and elements
+    """
     gmsh.initialize()
     gmsh.option.setNumber("General.Terminal", 1)
     gmsh.model.add("modele_test")
 
     npoints = int(len(polygon_vertices)/n)
 
-    geom = gmsh.model.geo
-
-    for vertex_index in range(len(polygon_vertices)): #Adding all the points of the profile
+    for vertex_index in range(len(polygon_vertices)): # Adding all the points of the profile
         gmsh.model.geo.addPoint(polygon_vertices[vertex_index,0],polygon_vertices[vertex_index,1],
                                 polygon_vertices[vertex_index,2], mesh_size, vertex_index)
 
-    #Adding the overall spline and creating the surface
+    # Adding the overall spline and creating the surface
     for i in range(n):
         gmsh.model.geo.addSpline(np.linspace(i*npoints,(i+1)*npoints-1,npoints),2*i)
         gmsh.model.geo.addLine((i+1)*npoints-1,i*npoints,2*i+1)
@@ -44,7 +53,7 @@ def airfoil_gmeshing(polygon_vertices, mesh_size, n=1, show = False):
     if show:
         gmsh.fltk.run()
 
-    #Getting all the nodes
+    # Getting all the nodes
     nodeTags, coord, parametricCoord = gmsh.model.mesh.getNodes(includeBoundary = True)
     nNodes = int(max(nodeTags))
     nodelisting = np.zeros([nNodes,2])
@@ -57,7 +66,7 @@ def airfoil_gmeshing(polygon_vertices, mesh_size, n=1, show = False):
     filename = 'Polygon.bdf'
     gmsh.write(filename)
 
-    #Finding the simplices from the written file
+    # Finding the simplices from the written file
     f = open(filename,'r')
     rows = f.readlines()
     simplices = np.array([[0,0,0,0,0,0]])
@@ -79,14 +88,25 @@ def airfoil_gmeshing(polygon_vertices, mesh_size, n=1, show = False):
     return nodelisting, simplices
 
 def envelope_gmeshing(envelope_vertices, airfoil_vertices, mesh_size, n = 1, spacing = 0, show = False):
+    """Meshing the airfoil using GMSH
+
+    Args:
+        envelope_vertices (list): Vertices of the envelope
+        airfoil_vertices (list): Vertices of the airfoil
+        mesh_size (float): Mesh size.
+        n (int, optional): Number of hydrofoils in cascade. Defaults to 1.
+        show (bool, optional): Bool to define if GMSH software is used to show the mesh. Defaults to False.
+
+    Returns:
+        list, list: List of nodes and elements
+    """
     gmsh.initialize()
     gmsh.option.setNumber("General.Terminal", 1)
     gmsh.model.add("modele_test")
 
     npoints_profile = int(len(airfoil_vertices)/n)
     npoints_envelope = len(envelope_vertices) - 1
-    print(npoints_envelope)
-    print(npoints_profile)
+    
     npoints = len(envelope_vertices)+len(airfoil_vertices)-1
 
     geom = gmsh.model.geo
@@ -100,7 +120,7 @@ def envelope_gmeshing(envelope_vertices, airfoil_vertices, mesh_size, n = 1, spa
         gmsh.model.geo.addPoint(envelope_vertices[vertex_index,0],envelope_vertices[vertex_index,1],
                                 envelope_vertices[vertex_index,2], mesh_size*8, vertex_index+last_index+1)
         new_last_index = vertex_index+last_index+1
-    print(new_last_index)
+    
     #Adding the overall spline and creating the surface
     gmsh.model.geo.addLine(new_last_index, new_last_index-1, 0)
     gmsh.model.geo.addLine(new_last_index-1, new_last_index-2, 1)
@@ -129,7 +149,6 @@ def envelope_gmeshing(envelope_vertices, airfoil_vertices, mesh_size, n = 1, spa
 
         
     gmsh.model.geo.addPlaneSurface(wireTags= wiretags,tag = 0)
-    #gmsh.model.geo.addPlaneSurface([ 2 * n + 10,  2 * n + 25 ],tag = 1)
 
     
 
@@ -186,7 +205,15 @@ def envelope_gmeshing(envelope_vertices, airfoil_vertices, mesh_size, n = 1, spa
     return nodelisting, simplices
 
 def is_on_element(nodelisting, simplices):
-    # Determine if a node is used by an element, if not, delete it
+    """Determine if a node is used by an element, if not, delete it
+
+    Args:
+        nodelisting (nodes): List of nodes
+        simplices (list): List of nodes on elements
+
+    Returns:
+        list, list: List of existing nodes on 2D elements and simplices
+    """
     i = 0
     d = len(nodelisting)
     while i<d:
