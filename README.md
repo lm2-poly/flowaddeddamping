@@ -1,5 +1,9 @@
 # FlowAddedDamping
-flowaddeddamping is a custom script to allow the evaluation of flow-added damping on a hydrofoil using NASTRAN. It requires the installation of NASTRAN on the user's computer. Our development was performed using NX NASTRAN. The related article detailing the methodology will be submitted soon.
+flowaddeddamping is a custom script to allow the evaluation of flow-added damping on a hydrofoil using NASTRAN. It requires the installation of NASTRAN on the user's computer. Our development was performed using NX NASTRAN. 
+
+The code in this repository is the implementation of the methodology developed in the following scientific paper:
+
+Lamoureux, D., Audefroy, C., Tazi-Labzour, O., Houde, S., Gosselin, F.P. *Evaluating Flow-Added Damping on a Hydrofoil by Combining Vibro-Acoustics and Doublet-Lattice Panel Analyses* under review.
 
 ## Installation
 Use the requirements.txt file to install the required packages using pip. A virtual environment using anaconda or miniconda is recommended.
