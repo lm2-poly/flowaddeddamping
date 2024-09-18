@@ -3,7 +3,7 @@ flowaddeddamping is a custom script to allow the evaluation of flow-added dampin
 
 The code in this repository is the implementation of the methodology developed in the following scientific paper:
 
-Lamoureux, D., Audefroy, C., Tazi-Labzour, O., Houde, S., Gosselin, F.P. *Evaluating Flow-Added Damping on a Hydrofoil by Combining Vibro-Acoustics and Doublet-Lattice Panel Analyses* under review.
+Lamoureux, D., Audefroy, C., Tazi-Labzour, O., Houde, S., Gosselin, F.P. *Evaluating Flow-Added Damping on a Hydrofoil by Combining Vibro-Acoustics and Doublet-Lattice Panel Analyses*, accepted for publication in *Flow*.
 
 ## Installation
 Use the requirements.txt file to install the required packages using pip. A virtual environment using anaconda or miniconda is recommended.
